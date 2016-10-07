@@ -1,0 +1,29 @@
+{
+  "name": "hapi-breakpad-server",
+  "version": "0.0.1",
+  "description": "A simple breakpad server built with hapijs server and postgresql",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab.cmd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mickelindahl/hapi_breakpad_server.git"
+  },
+  "keywords": [
+    "hapi",
+    "breakpad",
+    "google",
+    "crash",
+    "reporter",
+    "symbols",
+    "c++",
+    "cpp"
+  ],
+  "author": "Mikael Lindahl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mickelindahl/hapi_breakpad_server/issues"
+  },
+  "homepage": "https://github.com/mickelindahl/hapi_breakpad_server#readme"
+}
