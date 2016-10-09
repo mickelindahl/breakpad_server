@@ -10,8 +10,7 @@ module.exports=(server)=>{
 
     let options = {
         status_code: "401", // if the statusCode is 401 redirect to /login page/endpoint
-        redirect: process.env.LOGIN_REDIRECT,
-        host: process.env.HEROKU_WEB_URL || server.info.uri
+        redirect: '/login'
     };
 
     return server.register( {

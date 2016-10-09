@@ -35,11 +35,6 @@ register( server ).then( ()=> {
 
     server.app.uri = process.env.HEROKU_WEB_URL || server.info.uri;
 
-    // Add users
-    server.app.users = require( './.config' ).reduce( ( d, v )=> {
-        d[v.user] = v.password
-    }, {} );
-
     // Start the server if not running under test (required by other module)
     if ( !module.parent ) {
         server.start( function () {

@@ -4,7 +4,7 @@
 
 'use strict';
 
-let debug = require( 'debug' )( 'hapi-auth-jwt' );
+let debug = require( 'debug' )( 'breakpad:hapi-auth-jwt' );
 const Jwt = require( 'jsonwebtoken' );
 
 // Modify header authorization if JWT cookei is present
@@ -12,13 +12,18 @@ function onPreAuth( request, reply ) {
 
     let cookies = {};
 
+    //debug(request.headers.cookie, request.headers.authorization)
+
     if ( !request.headers.cookie || request.headers.authorization ) {
         return reply.continue();
     }
 
     request.headers.cookie.split( ';' ).forEach( ( v )=> {
-        cookies[v.split( '=' )[0]] = v.split( '=' )[1]
+        cookies[v.split( '=' )[0].replace(/\s+/, "") ] = v.split( '=' )[1]
     } );
+
+    debug(cookies)
+    debug(cookies.loredge_jwt)
 
     if ( cookies.loredge_jwt == undefined ) {
         return reply.continue();
@@ -26,6 +31,8 @@ function onPreAuth( request, reply ) {
 
     Jwt.verify( cookies.loredge_jwt, process.env.JWT_SECRET,
         ( err, decoded )=> {
+
+            debug(err)
 
             if ( err ) {
                 return reply.continue();

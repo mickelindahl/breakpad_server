@@ -1,6 +1,19 @@
-[ ![Codeship Status for Loredge/Bedazzle](https://app.codeship.com/projects/b6c18810-6953-0134-5ef0-0611f7075927/status?branch=master)](https://app.codeship.com/projects/176671)
+# Breakpad server
+A simple breakpad server built on [Hapi](http://hapijs.com) and postgresql. 
 
-# Bedazzle
-Web app for loredg analytics
+## Installation
+Get started with the server by cloning this repo, `cd` into it and install all dependent modules:
+
+```
+npm install
+```
+
+Add an `.env` file with valid keys.That's all! Now start with
+
+```
+node index.js
+```
+
+and lean back and enjoy!
 
 

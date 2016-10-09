@@ -1,32 +1,24 @@
-<!DOCTYPE html>
-
 <!--Created by Mikael Lindahl (mikael) on 10/1/16.-->
 
+<!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="/css/invite-style.css">
+{{{head}}}
 
-    <title>Login bedazzle</title>
-</head>
+<body role="document">
+<div class="main">
 
-<header>
-    <div id="logo"><a href="http://www.loredge.com"><img src="/img/logo.png"></a></div>
-</header>
+    <div class="card-login">
+        <h2>Breakpad server</h2>
 
-<body>
-<div id="main" class="main" url="{{url}}">
+        <form>
 
-    <div class="card">
-        <h2>Login for Loredge analytics</h2>
+            <input id="user" type="text" class="form-control" placeholder="User">
+            <input id="password" type="password" class="form-control" placeholder="Password">
+            <hr/>
+            <input id="login" class="btn btn-login btn-block" type="button" value="Login">
 
-        <form style="margin-top:30px">
-
-            <input id="email" type="text" class="form-control form-control-sm" placeholder="Email">
-            <input id="password" type="password" class="form-control form-control-sm" placeholder="Password">
-            <hr />
-            <input id="login" class="submit button" type="button" onclick="login_backend()" value="Login">
         </form>
 
         <div id="result"></div>
@@ -34,58 +26,8 @@
     </div>
 
 </div>
+
 </body>
 </html>
+<script src="/bundles/login.js"></script>
 
-<script src="/js/jquery-3.1.0.min.js"></script>
-<script>
-
-    // Logn backend
-    function login_backend() {
-        $.ajax({
-            type: 'POST',
-            url:  '/login',
-            data: {
-                email: $("#email").val(),
-                password: $("#password").val(),
-            },
-            success: function (response) {
-
-                var redirect=document.URL.split('=');
-                var url=redirect.length>1 ? redirect[1] : location.origin+"/";
-
-                setCookie('loredge_jwt', response.id_token, 0.5);
-
-                window.open(url, '_self');
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                console.log(err);
-                alert("Failed!\n\n" + error);
-            }
-        });
-    }
-
-
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+ d.toUTCString();
-
-        console.log(cname + "=" + cvalue + "; " + expires)
-
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-
-
-    $(document).ready(function() {
-        $('form').keydown(function(event) {
-
-            if (event.keyCode == 13) {
-                $('form input').click();
-                return false;
-            }
-        });
-    });
-
-</script>

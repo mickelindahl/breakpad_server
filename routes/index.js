@@ -9,6 +9,9 @@ module.exports = function (server){
 
     var paths=[
         '../routes/assets',
+        '../routes/login',
+        '../routes/crash_dumps',
+        '../routes/symbols',
     ];
 
     for (var i in paths){

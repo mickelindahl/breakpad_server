@@ -1,7 +1,10 @@
 'use strict';
 
-const fs = require( 'fs' );
-const path = require( 'path' );
+const Path = require( 'path' );
+const Browserify = require( 'browserify' );
+const Fs = require('fs');
+const Handlebars =require('handlebars');
+const debug = require('debug')('breakpad:crash_dump.js')
 
 module.exports = [
     // This route is required for serving assets referenced from our html files
@@ -11,21 +14,19 @@ module.exports = [
         config: { auth: 'jwt' },
         handler: function ( request, reply ) {
 
-            reply.view( 'index', {
-                test: 'bokeh/bar.html'
+            let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
+            let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
+
+            head= Handlebars.compile(head, {title:'Login'});
+            nav= Handlebars.compile(nav);
+
+            debug(head, nav);
+
+            reply.view( 'crash_dump', {
+                head:head,
+                nav:nav
             } );
 
-        }
-    },
-
-    {
-        method: 'GET',
-        path: '/bokeh/{files*}',
-        config: { auth: 'jwt' },
-        handler: {
-            directory: {
-                path: 'python/html'
-            }
         }
     },
 
@@ -40,5 +41,30 @@ module.exports = [
         }
     },
 
+    // Browserify bundles
+    {
+        method: 'GET',
+        path: '/bundles/{bundle*}',
+        handler: (request, reply)=>{
+
+            let bundle_file=request.params.bundle;
+            let b = Browserify();
+
+            console.log(Path.join(Path.resolve(),'bundles',bundle_file))
+
+            b.add(Path.join(Path.resolve(),'bundles',bundle_file));
+            b.bundle((err, js)=> {
+
+                if (err){
+                    return reply(Boom.badImplementation(err));
+                }
+
+                reply(js.toString())
+
+            })
+
+            }
+
+    }
 ];
 
