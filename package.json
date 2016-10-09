@@ -40,7 +40,7 @@
     "handlebars": "^4.0.5",
     "hapi": "^15.1.1",
     "hapi-auth-jwt": "^4.0.0",
-    "hapi-redirect": "git+ssh://git@github.com/mickelindahl/hapi_redirect.git",
+    "hapi-redirect": "^1.0.2",
     "hapi-swagger": "^7.2.0",
     "hapi-waterline": "^0.1.2",
     "inert": "^4.0.2",
