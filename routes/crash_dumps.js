@@ -93,37 +93,43 @@ module.exports = [
 
                 let i=0;
                 models.forEach((val)=>{
-                    let file=Path.join(Path.resolve(), Uuid.v4());
-                    Fs.writeFileSync(file, val.file);
-                    Minidump.walkStack(file, (error, report)=>{
-                       //debug(error, report.toString());
-                        //
-                        if(models.length-1==i){
-                            reply(models);
-                        }
 
-                        if (error){
-                            console.log(error)
-                        }
+                    val.file=report.toString();
 
-                        if (!report){
-                            return
-                        }
-
-                        val.file=report.toString();
-
-                        val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
+                    val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
 
-                        i++;
-
-                         Fs.unlink(file, function(err){
-                             if(err) return console.log(err);
-                             console.log(file+' file deleted successfully');
-                         });
-
-
-                    })
+                    //let file=Path.join(Path.resolve(), Uuid.v4());
+                    //Fs.writeFileSync(file, val.file);
+                    //Minidump.walkStack(file, (error, report)=>{
+                    //   //debug(error, report.toString());
+                    //    //
+                    //    if(models.length-1==i){
+                    //        reply(models);
+                    //    }
+                    //
+                    //    if (error){
+                    //        console.log(error)
+                    //    }
+                    //
+                    //    if (!report){
+                    //        return
+                    //    }
+                    //
+                    //    val.file=report.toString();
+                    //
+                    //    val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
+                    //
+                    //
+                    //    i++;
+                    //
+                    //     Fs.unlink(file, function(err){
+                    //         if(err) return console.log(err);
+                    //         console.log(file+' file deleted successfully');
+                    //     });
+                    //
+                    //
+                    //})
 
                 });
 
