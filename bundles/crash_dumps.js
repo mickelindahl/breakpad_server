@@ -33,20 +33,20 @@ function get_crash_dumps() {
         url: "/crash_dumps",
         success: function ( response ) {
 
-            response = [{
-                product: 'Grassy',
-                version: '0.0.0',
-                ip: '1111',
-                user_agent: 'hej',
-                file: 'vsdfvfv',
-                },
-                {
-                    product: 'Grassy',
-                    version: '0.0.0',
-                    ip: '1111',
-                    user_agent: 'hej',
-                    file: 'vsdfvfv',
-                }];
+            // response = [{
+            //     product: 'Grassy',
+            //     version: '0.0.0',
+            //     ip: '1111',
+            //     user_agent: 'hej',
+            //     file: 'vsdfvfv',
+            //     },
+            //     {
+            //         product: 'Grassy',
+            //         version: '0.0.0',
+            //         ip: '1111',
+            //         user_agent: 'hej',
+            //         file: 'vsdfvfv',
+            //     }];
 
             done( response )
 
