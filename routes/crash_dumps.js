@@ -19,13 +19,18 @@ module.exports = [
         path:'/crash_dumps',
         handler: (request, reply)=>{
 
-            //let file=Path.join(Path.resolve(), 'tmp')
-            //Fs.writeFileSync(file, request.payload.upload_file_minidump)
-            //Minidump.walkStack(file, (error, report)=>{
-            //    debug(record)
-            //    debug(error, report.toString())
-            //    reply(record)
-            //})
+
+            // setup symbol files
+            //SimpleSymbolSupplier simply looks for symbol files in a known
+            // directory structure given a list of symbol directories.
+            // <debug filename>/<debug identifier>/<debug filename>.sym
+            //ref:https://wiki.mozilla.org/Breakpad:Symbols
+
+            //mkdirp('/tmp/foo/bar/baz', function (err) {
+            //    if (err) console.error(err)
+            //    else console.log('pow!')
+            //});
+
 
             let record={
                 user_agent:request.headers['user-agent'],
@@ -48,9 +53,7 @@ module.exports = [
 
             });/**/
 
-
-
-        },//handler.create({model:'crash_dump'}),
+        },
         config: {
 
             //auth:'jwt',
@@ -91,21 +94,33 @@ module.exports = [
                 let i=0;
                 models.forEach((val)=>{
                     let file=Path.join(Path.resolve(), Uuid.v4());
-                    Fs.writeFileSync(file, val.file)
+                    Fs.writeFileSync(file, val.file);
                     Minidump.walkStack(file, (error, report)=>{
-                       debug(error, report.toString())
-
-                        val.file=report.toString();
-
+                       //debug(error, report.toString());
+                        //
                         if(models.length-1==i){
                             reply(models);
                         }
+
+                        if (error){
+                            console.log(error)
+                        }
+
+                        if (!report){
+                            return
+                        }
+
+                        val.file=report.toString();
+
+                        val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+
                         i++;
 
-                        // Fs.unlink(file, function(err){
-                        //     if(err) return console.log(err);
-                        //     console.log(file+' file deleted successfully');
-                        // });
+                         Fs.unlink(file, function(err){
+                             if(err) return console.log(err);
+                             console.log(file+' file deleted successfully');
+                         });
 
 
                     })

@@ -33,21 +33,6 @@ function get_crash_dumps() {
         url: "/crash_dumps",
         success: function ( response ) {
 
-            // response = [{
-            //     product: 'Grassy',
-            //     version: '0.0.0',
-            //     ip: '1111',
-            //     user_agent: 'hej',
-            //     file: 'vsdfvfv',
-            //     },
-            //     {
-            //         product: 'Grassy',
-            //         version: '0.0.0',
-            //         ip: '1111',
-            //         user_agent: 'hej',
-            //         file: 'vsdfvfv',
-            //     }];
-
             done( response )
 
         },
@@ -63,7 +48,6 @@ function get_crash_dumps() {
 $( document ).ready( function () {
 
     $_( '#crash_dump_table' )
-    // .removeClass( 'display' )
         .addClass( 'table table-striped table-bordered table-hover' );
 
     data_table = $_( '#crash_dump_table' ).DataTable( {
@@ -76,18 +60,15 @@ $( document ).ready( function () {
         rowCallback(td, data, index){
             td.setAttribute('data-toggle',"modal")
             td.setAttribute('data-target',"#modal_crash_dumps");
-                console.log(td)
-            // data-toggle="modal" data-target="#myModal"
+
         }
     } );
     $( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
-        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[0]+ ' and version:'+data[1]);
-        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[0]+ ' and version:'+data[1]);
-        $_('#modal_crash_dumps .modal-body p').html(data[4])
-        console.log( data );
 
-        // alert( 'You clicked on '+data[0]+'\'s row' );
+        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[0]+ '  version '+data[1]);
+        $_('#modal_crash_dumps .modal-body p').html(data[4])
+
     } );
 
     $_( '#crash_dump_table' ).css( { display: 'table' } )
