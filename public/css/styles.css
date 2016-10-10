@@ -29,11 +29,19 @@ body {
     text-align: center;
 }
 
+/*.container {*/
+    /*margin:50px;*/
+/*}*/
+
 .main {
     text-align: center;
     padding: 4%;
     min-height: 68%;
 
+}
+
+tbody tr {
+    cursor: pointer;
 }
 
 /*.form-signin {*/

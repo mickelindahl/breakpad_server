@@ -7,22 +7,46 @@
 {{{head}}}
 
 <body role="document">
-    {{{nav}}}
-    <div style="padding-top: 50px;">
-        <table id="crash_dump_table" class="display" cellspacing="0" width="100%" style="padding-top: 50px;">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Version</th>
-                <th>Ip</th>
-                <th>User agent</th>
-            </tr>
-            </thead>
-            <tbody>
+{{{nav}}}
 
-            </tbody>
-        </table>
-    </div>
+<div class="container main">
+    <table id="crash_dump_table" class="display" cellspacing="0" width="100%" style="display: none">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Version</th>
+            <th>Ip</th>
+            <th>User agent</th>
+            <th>File</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_crash_dumps" tabindex="-1" role="dialog" aria-labelledby="modal_crash_dumps_label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal_crash_dumps_label">Crash dump</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Hej hej
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>
 <script src="/bundles/crash_dumps.js"></script>
+
+

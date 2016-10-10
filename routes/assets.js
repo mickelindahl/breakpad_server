@@ -33,6 +33,19 @@ module.exports = [
     // This route is required for serving assets referenced from our html files
     {
         method: 'GET',
+        path: '/test',
+        config: { auth: 'jwt' },
+        handler: function ( request, reply ) {
+
+            reply.view( 'bootstrap_datatables_test.html' );
+
+        }
+    },
+
+
+    // This route is required for serving assets referenced from our html files
+    {
+        method: 'GET',
         path: '/{files*}',
         handler: {
             directory: {

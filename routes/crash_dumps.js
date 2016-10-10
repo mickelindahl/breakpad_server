@@ -11,6 +11,7 @@ const debug = require('debug')('breakpad:route:crash_dumps');
 const Minidump = require('minidump');
 const Fs=require('fs');
 const Path=require('path');
+const Uuid=require('uuid')
 
 module.exports = [
     {
@@ -87,7 +88,33 @@ module.exports = [
 
             Model.find().then((models)=>{
 
-                reply(models);
+                let i=0;
+                models.forEach((val)=>{
+                    let file=Path.join(Path.resolve(), Uuid.v4());
+                    Fs.writeFileSync(file, val.file)
+                    Minidump.walkStack(file, (error, report)=>{
+                       debug(error, report.toString())
+
+                        val.file=report.toString();
+
+                        if(models.length-1==i){
+                            reply(models);
+                        }
+                        i++;
+
+                        // Fs.unlink(file, function(err){
+                        //     if(err) return console.log(err);
+                        //     console.log(file+' file deleted successfully');
+                        // });
+
+
+                    })
+
+                });
+
+
+
+
 
             }).catch(function (err) {
 
