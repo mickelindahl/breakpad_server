@@ -5,6 +5,7 @@
 'use strict';
 
 const Joi = require('joi');
+const Boom = require('boom');
 const handler = require('../index').methods.handler;
 const Formidable = require('formidable');
 const debug = require('debug')('breakpad:route:crash_dumps');
@@ -91,10 +92,16 @@ module.exports = [
 
             Model.find().then((models)=>{
 
-                let i=0;
+                debug(models)
+
+                //let i=0;
                 models.forEach((val)=>{
 
-                    val.file=report.toString();
+                    if (!val.file){
+                        return
+                    }
+
+                    val.file=val.file.toString();
 
                     val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
@@ -104,9 +111,7 @@ module.exports = [
                     //Minidump.walkStack(file, (error, report)=>{
                     //   //debug(error, report.toString());
                     //    //
-                    //    if(models.length-1==i){
-                    //        reply(models);
-                    //    }
+
                     //
                     //    if (error){
                     //        console.log(error)
@@ -120,9 +125,12 @@ module.exports = [
                     //
                     //    val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
                     //
-                    //
+                    ////
                     //    i++;
+                    //    if(models.length-1==i){
                     //
+                    //    }
+                    ////
                     //     Fs.unlink(file, function(err){
                     //         if(err) return console.log(err);
                     //         console.log(file+' file deleted successfully');
@@ -132,7 +140,7 @@ module.exports = [
                     //})
 
                 });
-
+                reply(models);
 
 
 
