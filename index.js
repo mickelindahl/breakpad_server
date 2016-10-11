@@ -27,6 +27,7 @@ server.connection( {
     port: parseInt( process.env.PORT, 10 ) || 3000
 } );
 
+
 register( server ).then( ()=> {
 
     //Plugins loaded. Set up the rest and get kickin'
