@@ -101,12 +101,12 @@ module.exports = [
                         return
                     }
 
-                    val.file=val.file.toString();
-
-                    val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
-
-
-                    //let file=Path.join(Path.resolve(), Uuid.v4());
+                    //val.file=val.file.toString();
+                    //
+                    //val.file = val.file.replace(/(?:\r\n|\r|\n)/g, '<br />');
+                    //
+                    //
+                    //let file=Path.join(Path.resolve(), 'test', Uuid.v4());
                     //Fs.writeFileSync(file, val.file);
                     //Minidump.walkStack(file, (error, report)=>{
                     //   //debug(error, report.toString());
