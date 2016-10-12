@@ -60,6 +60,7 @@ lab.experiment( "Anchor", function () {
                 credentials: {  }, // To bypass auth strategy
             };
 
+
             server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 200 );
                 code.expect( response.result[0].product ).to.equal( 'cool' );
