@@ -52,7 +52,6 @@ lab.experiment( "Anchor", function () {
             } );
         } );
 
-
     lab.test( "Testing for GET all crash dumps",
         function ( done ) {
             var options = {
