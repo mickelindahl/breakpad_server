@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/lab/bin/lab -l test",
-    "test2": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls",
+    "test2": "./node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls",
     "start": "node --harmony index.js"
   },
   "repository": {
