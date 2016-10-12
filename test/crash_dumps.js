@@ -58,6 +58,7 @@ lab.experiment( "Anchor", function () {
             var options = {
                 method: "GET",
                 url: "/crash_dumps",
+                credentials: {  }, // To bypass auth strategy
             };
 
             server.inject( options, function ( response ) {
