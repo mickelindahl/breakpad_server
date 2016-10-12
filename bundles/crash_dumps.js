@@ -20,7 +20,7 @@ function get_crash_dumps() {
 
         dumps.forEach( function ( v ) {
 
-            data_table.row.add( [v.product, v.version, v.ip, v.user_agent,  v.file] )
+            data_table.row.add( [v.id, v.product, v.version, v.ip, v.user_agent,  v.file_as_string] )
 
         } );
 
@@ -45,7 +45,7 @@ function get_crash_dumps() {
     } );
 }
 
-$( document ).ready( function () {
+$_( document ).ready( ()=> {
 
     $_( '#crash_dump_table' )
         .addClass( 'table table-striped table-bordered table-hover' );
@@ -54,7 +54,7 @@ $( document ).ready( function () {
         pageLength: 50,
         columnDefs: [
             {
-                targets: [4],
+                targets: [5],
                 visible: false
             }],
         rowCallback(td, data, index){
@@ -63,11 +63,11 @@ $( document ).ready( function () {
 
         }
     } );
-    $( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
+    $_( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
-        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[0]+ '  version '+data[1]);
-        $_('#modal_crash_dumps .modal-body p').html(data[4])
+        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[1]+ '  version '+data[2]);
+        $_('#modal_crash_dumps .modal-body p').html(data[5])
 
     } );
 

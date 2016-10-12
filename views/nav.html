@@ -8,9 +8,14 @@
             <a href="#" class="navbar-brand">Crash boom bang</a></div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                {{#if crash_dump}}
+                    <li class="active"><a href="/">Crash dumps</a></li>
+                    <li><a href="/symbols/view">Symbols</a></li>
+                {{else}}
+                    <li><a href="/">Crash dumps</a></li>
+                    <li class="active"><a href="/symbol">Symbols</a></li>
+                {{/if}}
 
-                <li><a href="/">Crash dumps</a></li>
-                <li><a href="/symbols/view">Symbols</a></li>
             </ul>
         </div>
     </div>

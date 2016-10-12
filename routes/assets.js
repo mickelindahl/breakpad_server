@@ -17,10 +17,8 @@ module.exports = [
             let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
             let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
 
-            head= Handlebars.compile(head, {title:'Crash dumps'});
-            nav= Handlebars.compile(nav);
-
-            debug(head, nav);
+            head= Handlebars.compile(head)({title:'Crash dumps'});
+            nav = Handlebars.compile(nav)({crash_dump:'bajs'});
 
             reply.view( 'crash_dump', {
                 head:head,
@@ -38,10 +36,8 @@ module.exports = [
             let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
             let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
 
-            head= Handlebars.compile(head, {title:'Login'});
+            head= Handlebars.compile(head)({title:'Login'});
             nav= Handlebars.compile(nav);
-
-            debug(head, nav);
 
             reply.view( 'symbol', {
                 head:head,

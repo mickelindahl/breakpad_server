@@ -79,8 +79,6 @@ module.exports = [
 
             Model.find().then((models)=>{
 
-                debug(models)
-
                 models=models.map((e)=>{
 
                     e.file_as_string=e.file.toString();

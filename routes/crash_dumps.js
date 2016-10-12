@@ -91,7 +91,20 @@ module.exports = [
 
             Model.find().then((models)=>{
 
-                debug(models)
+                //debug(models)
+                models=models.map((e)=>{
+
+                    if (e.file) {
+
+                        e.file_as_string = e.file.toString();
+
+                        e.file_as_string = e.file_as_string.replace( /(?:\r\n|\r|\n)/g, '<br />' );
+                    }else{
+                        e.file_as_string='Empty'
+                    }
+
+                    return e
+                })
 
                 reply(models);
 
@@ -105,6 +118,7 @@ module.exports = [
 
         },//handler.getAll({model:'crash_dump'}),
         config: {
+            auth:'jwt',
             description: 'Get all crash dumps',
             notes: 'Gets all crash dumps',
             tags: ['api', 'crash_dump'],
