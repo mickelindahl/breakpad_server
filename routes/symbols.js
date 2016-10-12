@@ -5,6 +5,7 @@
 'use strict';
 
 const Joi = require( 'joi' );
+const Boom = require( 'boom' );
 const debug = require( 'debug' )( 'breakpad:route:symbols' );
 
 module.exports = [
@@ -13,7 +14,8 @@ module.exports = [
         path: '/symbols',
         handler: ( request, reply  )=> {
 
-            debug( request.payload )
+            debug(  request.headers, request.payload )
+            //reply().code( 201 );
 
             let record = {
                 user_agent: request.headers['user-agent'],
@@ -116,9 +118,9 @@ module.exports = [
                 options: {
                     allowUnknown: true
                 },
-                headers: {
-                    Authorization: Joi.string().description( 'Jwt token' )
-                },
+                //headers: {
+                //    Authorization: Joi.string().description( 'Jwt token' )
+                //},
             }
         }
     },
