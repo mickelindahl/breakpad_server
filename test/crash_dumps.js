@@ -46,7 +46,7 @@ lab.experiment( "Anchor", function () {
             debug(options)
 
             server.inject( options, function ( response ) {
-                code.expect( response.statusCode ).to.equal( 201 );
+                code.expect( response.statusCode ).to.equal( 200 );
                 code.expect( response.result.id ).to.equal( 1 );
                 done();
             } );
