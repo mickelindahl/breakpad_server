@@ -4,7 +4,7 @@
   "description": "A simple breakpad server built with hapijs server and postgresql",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls -v",
+    "test": "./node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls -verbose",
     "start": "node --harmony index.js"
   },
   "repository": {
