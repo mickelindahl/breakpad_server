@@ -16,6 +16,7 @@ module.exports = {
         debug_file: 'string',
         debug_identifier: 'string',
         file: 'binary',
+        user_agent:'string,'
     }
 
 };

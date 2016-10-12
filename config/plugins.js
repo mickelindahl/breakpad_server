@@ -8,9 +8,6 @@ const Promise = require('bluebird');
 module.exports=(server)=> {
 
     let plugins = [
-        (s) => {
-            return s.register(require('../plugins/handler'))
-        },
         require('./hapi_log'),
         require('./hapi_auth_jwt'), //need to be registered before swagger for jwt to be present
         require('./hapi_redirect'),

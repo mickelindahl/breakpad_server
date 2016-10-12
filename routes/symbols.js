@@ -5,7 +5,6 @@
 'use strict';
 
 const Joi = require( 'joi' );
-const handler = require( '../index' ).methods.handler;
 const debug = require( 'debug' )( 'breakpad:route:symbols' );
 
 module.exports = [
@@ -28,7 +27,7 @@ module.exports = [
             };
 
 
-            var Model = request.server.getModel( 'crash_dump' );
+            var Model = request.server.getModel( 'symbol' );
 
             Model.create( record ).then( ( models )=> {
 
@@ -71,7 +70,36 @@ module.exports = [
     {
         method: 'GET',
         path: '/symbols',
-        handler: handler.getAll( { model: 'symbol' } ),
+        handler: (request, reply)=>{
+
+
+            let Model = request.server.getModel('symbol');
+
+            Model.find().then((models)=>{
+
+                debug(models)
+
+                models=models.map((e)=>{
+
+                    e.file_as_string=e.file.toString();
+
+                    e.file_as_string = e.file_as_string.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+                    return e
+                })
+
+
+                reply(models);
+
+
+            }).catch(function (err) {
+
+                request.server.app.log.error(err);
+                reply(Boom.badImplementation(err.message));
+
+            });
+
+        },
         config: {
             auth: 'jwt',
             description: 'Get all symbol files',

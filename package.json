@@ -50,6 +50,7 @@
     "jquery": "^3.1.1",
     "jsonwebtoken": "^7.1.9",
     "minidump": "^0.9.0",
+    "mkdirp": "^0.5.1",
     "sails-memory": "^0.10.7",
     "sails-postgresql": "^0.11.4",
     "therealyou": "^1.0.3",

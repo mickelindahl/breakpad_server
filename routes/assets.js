@@ -17,12 +17,33 @@ module.exports = [
             let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
             let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
 
-            head= Handlebars.compile(head, {title:'Login'});
+            head= Handlebars.compile(head, {title:'Crash dumps'});
             nav= Handlebars.compile(nav);
 
             debug(head, nav);
 
             reply.view( 'crash_dump', {
+                head:head,
+                nav:nav
+            } );
+
+        }
+    },
+    {
+        method: 'GET',
+        path: '/symbols/view',
+        config: { auth: 'jwt' },
+        handler: function ( request, reply ) {
+
+            let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
+            let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
+
+            head= Handlebars.compile(head, {title:'Login'});
+            nav= Handlebars.compile(nav);
+
+            debug(head, nav);
+
+            reply.view( 'symbol', {
                 head:head,
                 nav:nav
             } );

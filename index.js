@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 // Load environment variables from .env or testenv
 if ( process.env.NODE_ENV == 'production' ) {
     //do nothing
