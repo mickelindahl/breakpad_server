@@ -20,6 +20,7 @@ module.exports = [
         handler: (request, reply)=>{
 
 
+
             // setup symbol files
             //SimpleSymbolSupplier simply looks for symbol files in a known
             // directory structure given a list of symbol directories.

@@ -20,7 +20,7 @@ function get_crash_dumps() {
 
         dumps.forEach( function ( v ) {
 
-            data_table.row.add( [v.id, v.product, v.version, v.ip, v.user_agent,  v.file_as_string] )
+            data_table.row.add( [v.id, v.product, v.version, new Date(v.createdAt), v.version ? v.version : ''] )
 
         } );
 
@@ -45,7 +45,40 @@ function get_crash_dumps() {
     } );
 }
 
+function stack_walk(id){
+
+    $_.ajax( {
+        type: 'POST',
+        url: "/stack_walk",
+        data:{
+            crash_id:id
+        },
+        success: function ( response ) {
+
+            $_('#modal_crash_dumps .modal-body p').html(response.report_html);
+
+            done( response )
+
+        },
+        error: function ( xhr, status, error ) {
+            var err = eval( "(" + xhr.responseText + ")" );
+            console.log( err );
+            alert( "Failed!\n\n" + error );
+            done( err )
+        }
+    } );
+
+}
+
+
+
 $_( document ).ready( ()=> {
+
+    let id;
+
+    $_('#walk').click(()=>{
+        stack_walk(id)
+    });
 
     $_( '#crash_dump_table' )
         .addClass( 'table table-striped table-bordered table-hover' );
@@ -54,7 +87,7 @@ $_( document ).ready( ()=> {
         pageLength: 50,
         columnDefs: [
             {
-                targets: [5],
+                targets: [4],
                 visible: false
             }],
         rowCallback(td, data, index){
@@ -66,13 +99,17 @@ $_( document ).ready( ()=> {
     $_( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
+        id=data[0] //set global
+
         $_('#modal_crash_dumps_label').html('Crash dump for product '+data[1]+ '  version '+data[2]);
-        $_('#modal_crash_dumps .modal-body p').html(data[5])
 
     } );
 
     $_( '#crash_dump_table' ).css( { display: 'table' } )
-    get_crash_dumps()
+    get_crash_dumps();
+
+    $_('.navbar-default').css(
+    'background-color', '#e73c69')
 
 
 } );

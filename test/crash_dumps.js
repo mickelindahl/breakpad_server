@@ -15,7 +15,7 @@ const code = require( "code" );
 const Path = require('path');
 const debug=require('debug')('breakpad:test:crash_dumps');
 
-lab.experiment( "Anchor", function () {
+lab.experiment( "Crash dump", function () {
 
     lab.before( { timeout: 3000 }, function ( done ) {
         var iv = setInterval( function () {

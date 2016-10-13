@@ -13,7 +13,9 @@ module.exports = {
         version: 'string',
         file: 'binary',
         ip:'string',
-        user_agent:'string'
+        user_agent:'string',
+        report:'string',
+        report_html:'string'
     }
 
 };

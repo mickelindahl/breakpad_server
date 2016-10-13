@@ -7,22 +7,21 @@
 
 module.exports=(server)=>{
 
-    var db_connection;
-
     // Waterline ORM configuration
+    var db_connection = {
+        adapter: 'postgresql',
+        url: process.env.DATABASE_URL,
+        pool: false,
+        ssl: process.env.POSTGRES_REQUIRE_SSL || false
+    }
+
+    // If test switch
     if (!process.env.DATABASE_URL) {
         // We are running under test
         db_connection = {
             adapter: 'memory'
         };
-    } else {
-        db_connection = {
-            adapter: 'postgresql',
-            url: process.env.DATABASE_URL,
-            pool: false,
-            ssl: process.env.POSTGRES_REQUIRE_SSL || false
-        }
-    }
+    };
 
     let options={
         adapters: { // adapters declaration
