@@ -22,9 +22,6 @@ function onPreAuth( request, reply ) {
         cookies[v.split( '=' )[0].replace(/\s+/, "") ] = v.split( '=' )[1]
     } );
 
-    debug(cookies)
-    debug(cookies.loredge_jwt)
-
     if ( cookies.loredge_jwt == undefined ) {
         return reply.continue();
     }

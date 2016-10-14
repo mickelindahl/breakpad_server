@@ -71,6 +71,20 @@ module.exports = [
         }
     },
 
+
+    // This route is required for serving assets referenced from our html files
+    {
+        method: 'GET',
+        path: '/chosen/{files*}',
+        handler: {
+            directory: {
+                path: 'node_modules/chosen-npm/public/'
+            }
+        }
+    },
+
+
+
     // Browserify bundles
     {
         method: 'GET',

@@ -7,6 +7,12 @@
 let $_ = require( 'jquery' );
 let dt = require( 'datatables.net' )( window, $_ );
 let dt_bs = require( 'datatables.net-bs' )( window, $_ );
+let Util=require('util');
+//
+//window.$ = $_;
+//window.jQuery = $_;
+//let chosen = require('chosen-npm')
+//let chosen = require('chosen-npm')
 
 let data_table;
 
@@ -20,7 +26,7 @@ function get_crash_dumps() {
 
         dumps.forEach( function ( v ) {
 
-            data_table.row.add( [v.id, v.product, v.version, new Date(v.createdAt), v.version ? v.version : ''] )
+            data_table.row.add( [v.id, v.product, v.version, new Date(v.createdAt), v.report_html ? v.report_html : ''] )
 
         } );
 
@@ -57,19 +63,43 @@ function stack_walk(id){
 
             $_('#modal_crash_dumps .modal-body p').html(response.report_html);
 
-            done( response )
+            var data = data_table.row( id-1 ).data();
+            data[4]=response.report_html
+            data_table.row( id-1 ).data(data).draw()
 
         },
         error: function ( xhr, status, error ) {
             var err = eval( "(" + xhr.responseText + ")" );
             console.log( err );
             alert( "Failed!\n\n" + error );
-            done( err )
+
         }
     } );
 
 }
 
+
+//
+//function symbols( done ) {
+//
+//    $_.ajax( {
+//        type: 'GET',
+//        url: "/symbols",
+//        success: function ( response ) {
+//
+//            done( response )
+//
+//        },
+//        error: function ( xhr, status, error ) {
+//            var err = eval( "(" + xhr.responseText + ")" );
+//            console.log( err );
+//            alert( "Failed!\n\n" + error );
+//
+//            done( error )
+//        }
+//    } );
+//
+//}
 
 
 $_( document ).ready( ()=> {
@@ -99,17 +129,36 @@ $_( document ).ready( ()=> {
     $_( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
-        id=data[0] //set global
 
-        $_('#modal_crash_dumps_label').html('Crash dump for product '+data[1]+ '  version '+data[2]);
+        //symbols((response)=>{
+
+
+            //let select=$_("#select_crash_dump")
+            //response.forEach((r)=>{
+            //
+            //    select.append(Util.format('<option value=%s>%s</option>',
+            //        r.id+'-'+r.version+'-'+r.debug_file,
+            //        r.id+'-'+r.version+'-'+r.debug_file))
+            //
+            //});
+            //
+            //
+            //$_(".chosen-select").trigger("chosen:updated");
+            //select.trigger('chosen:updated')
+
+            id=data[0] //set global
+
+            $_('#modal_crash_dumps_label').html('Crash dump for product '+data[1]+ '  version '+data[2]);
+            $_('#modal_crash_dumps .modal-body p').html(data[4]);
+        //})
+
+
+
 
     } );
 
     $_( '#crash_dump_table' ).css( { display: 'table' } )
     get_crash_dumps();
-
-    $_('.navbar-default').css(
-    'background-color', '#e73c69')
 
 
 } );

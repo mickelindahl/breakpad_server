@@ -13,9 +13,10 @@ const Path = require( 'path' );
 const Uuid = require( 'uuid' );
 const Promise = require( 'bluebird' );
 const Mkdirp = require( 'mkdirp' );
-var Rmdir = require('rmdir');
+const Rmdir = require( 'rmdir' );
+const Util = require( 'util' )
 
-function handlerStackWalk(request, reply) {
+function handlerStackWalk( request, reply ) {
     let Crash_dump = request.server.getModel( 'crash_dump' );
 
     Crash_dump.find( { id: request.payload.crash_id } ).then( ( crash_dump )=> {
@@ -23,7 +24,7 @@ function handlerStackWalk(request, reply) {
         return new Promise( ( resolve, reject )=> {
             let Symbols = request.server.getModel( 'symbol' );
 
-            if (request.payload.symbol_ids){
+            if ( request.payload.symbol_ids ) {
                 let criteria = request.payload.symbol_ids.map( ( e )=> {return { id: e }} )
                 Symbols.find( criteria ).then( ( symbols )=> {
 
@@ -32,7 +33,7 @@ function handlerStackWalk(request, reply) {
                         symbols: symbols
                     } )
                 } )
-            }else{
+            } else {
 
                 resolve( {
                     crash_dump: crash_dump[0],
@@ -65,41 +66,47 @@ function handlerStackWalk(request, reply) {
 
                 debug( 'Creating', Path.join( path, name ) );
                 Fs.writeFileSync( Path.join( path, name ), sym.file );
-                results.symbol_files.push( {path:path, name:name} )
+                results.symbol_files.push( { path: path, name: name } )
 
             } );
 
+            let parse = ( error, report )=> {
+                if ( error ) {
+
+                    debug( error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ) )
+                    results.crash_dump.report = error.toString();
+                    results.crash_dump.report_html = Util.format(
+                        '<p><font size="3" color="red">%s</font><br/></p><h4>Crash dump raw</h4><p>%s</p>',
+                        error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ),
+                        results.crash_dump.file ? results.crash_dump.file.toString() : results.crash_dump.file )
+
+                    return resolve( results )
+
+                }
+
+                results.crash_dump.report = report.toString();
+                results.crash_dump.report_html = report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
+
+                resolve( results );
+
+            }
+
             if ( results.symbols.length > 0 ) {
 
-                Minidump.walkStack( results.crash_dump_file,  Path.join( Path.resolve(), 'symbols' ),
+                Minidump.walkStack( results.crash_dump_file, Path.join( Path.resolve(), 'symbols' ),
                     ( error, report )=> {
 
-                        if ( error ) {
-                            return reject( error )
-                        }
-
-                        results.crash_dump.report = report.toString();
-                        results.crash_dump.report_html= report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
-
-                        resolve( results );
+                        parse( error, report );
 
                     } )
             } else {
 
                 Minidump.walkStack( results.crash_dump_file, ( error, report )=> {
 
-                    if ( error ) {
-                        return reject( error )
-                    }
-
-                    results.crash_dump.report = report.toString();
-                    results.crash_dump.report_html= report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
-
-                    resolve( results );
+                    parse( error, report );
 
                 } );
             }
-
 
         } )
 
@@ -109,34 +116,33 @@ function handlerStackWalk(request, reply) {
 
         debug( 'Deleting', results.crash_dump_file );
         Fs.unlinkSync( results.crash_dump_file );
-        Fs.rmdir(Path.join( Path.resolve(), 'crash_dump' ))
+        Fs.rmdir( Path.join( Path.resolve(), 'crash_dump' ) )
 
         results.symbol_files.forEach( ( file )=> {
 
-            debug( 'Deleting', file )
-            Fs.unlinkSync(  Path.join( file.path, file.name )  );
+            debug( 'Deleting', file );
+            Fs.unlinkSync( Path.join( file.path, file.name ) );
 
         } );
 
+        return new Promise( ( resolve, reject )=> {
+            if ( results.symbols.length > 0 ) {
+                Rmdir( Path.join( Path.resolve(), 'symbols' ), function ( err, dirs, files ) {
 
-        return new Promise((resolve, reject)=>{
-            if (results.symbols.length>0){
-                Rmdir(Path.join( Path.resolve(), 'symbols' ), function (err, dirs, files) {
-
-                    if(err){
-                        reject(err)
+                    if ( err ) {
+                        reject( err )
                     }
 
-                    debug(dirs);
-                    debug(files);
-                    debug('all files are removed');
-                    resolve(results)
-                });
-            }else{
-                resolve(results)
+                    debug( dirs );
+                    debug( files );
+                    debug( 'all files are removed' );
+                    resolve( results )
+                } );
+            } else {
+                resolve( results )
             }
 
-        })
+        } )
 
     } ).then( ( results )=> {
 

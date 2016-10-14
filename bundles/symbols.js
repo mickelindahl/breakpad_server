@@ -20,7 +20,7 @@ function get_crash_dumps() {
 
         dumps.forEach( function ( v ) {
 
-            data_table.row.add( [v.id, v.version, v.ip, v.cpu, v.debug_file, new Date(v.updatedAt), v.file_as_string] )
+            data_table.row.add( [v.id, v.version, v.debug_file, new Date(v.updatedAt), v.file_as_string] )
 
         } );
 
