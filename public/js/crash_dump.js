@@ -45,6 +45,12 @@ $( document ).ready( ()=> {
         //$( '#select_crash_dump' ).chosen();
     } );
 
+    $('#clear_select').click(()=>{
+        $( '#select_crash_dump' ).val(null)
+        $( '#select_crash_dump' ).trigger( "chosen:updated" );
+    })
+
+
     $( '#select_crash_dump' ).chosen();
     $( '.chosen-container' ).css( { width: '60%' } )
 } );
