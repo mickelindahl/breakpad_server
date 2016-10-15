@@ -1,6 +1,7 @@
 
 [ ![Codeship Status for mickelindahl/breakpad_server](https://app.codeship.com/projects/e1128c80-70a6-0134-4920-4adf8fbeb56c/status?branch=master)](https://app.codeship.com/projects/178198)
-!https://coveralls.io/repos/github/mickelindahl/breakpad_server/badge.svg?branch=master(Coverage Status)!:https://coveralls.io/github/mickelindahl/breakpad_server?branch=master
+{<img src="https://coveralls.io/repos/github/mickelindahl/breakpad_server/badge.svg?branch=master" alt="Coverage Status" />}[https://coveralls.io/github/mickelindahl/breakpad_server?branch=master]
+
 
 
 # Breakpad server
