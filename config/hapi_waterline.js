@@ -1,11 +1,10 @@
-
 /**
  * Created by Mikael Lindahl on 2016-09-16.
  */
 
 'use strict';
 
-module.exports=(server)=>{
+module.exports = ( server )=> {
 
     // Waterline ORM configuration
     var db_connection = {
@@ -15,9 +14,8 @@ module.exports=(server)=>{
         ssl: process.env.POSTGRES_REQUIRE_SSL || false
     }
 
-
     // If test switch
-    if (!process.env.DATABASE_URL || process.env.NODE_ENV=='test') {
+    if ( !process.env.DATABASE_URL || process.env.NODE_ENV == 'test' ) {
         // We are running under test
 
         db_connection = {
@@ -25,14 +23,10 @@ module.exports=(server)=>{
         };
     };
 
-
-
-    console.log('!process.env.DATABASE_URL', db_connection)
-
-    let options={
+    let options = {
         adapters: { // adapters declaration
-            'postgresql': require('sails-postgresql'),
-            'memory': require('sails-memory')
+            'postgresql': require( 'sails-postgresql' ),
+            'memory': require( 'sails-memory' )
         },
         connections: {
             'default': db_connection
@@ -46,10 +40,10 @@ module.exports=(server)=>{
         path: '../../../models' // string or array of strings with paths to folders with models declarations
     };
 
-    return server.register({
-        register: require('hapi-waterline'),
+    return server.register( {
+        register: require( 'hapi-waterline' ),
         options: options,
-    })
+    } )
 };
 
 
