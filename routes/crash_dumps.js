@@ -6,12 +6,10 @@
 
 const Joi = require('joi');
 const Boom = require('boom');
-const Formidable = require('formidable');
 const debug = require('debug')('breakpad:route:crash_dumps');
-const Minidump = require('minidump');
-const Fs=require('fs');
 const Path=require('path');
-const Uuid=require('uuid')
+const Fs=require('fs');
+const Handlebars=require('handlebars');
 
 module.exports = [
     {
@@ -138,6 +136,26 @@ module.exports = [
                     Authorization: Joi.string().description('Jwt token')
                 },
             }
+        }
+    },
+    // This route is required for serving assets referenced from our html files
+    {
+        method: 'GET',
+        path: '/',
+        config: { auth: 'jwt' },
+        handler: function ( request, reply ) {
+
+            let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
+            let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
+
+            head= Handlebars.compile(head)({title:'Crash dumps'});
+            nav = Handlebars.compile(nav)({crash_dump:'bajs'});
+
+            reply.view( 'crash_dump', {
+                head:head,
+                nav:nav
+            } );
+
         }
     },
 ];

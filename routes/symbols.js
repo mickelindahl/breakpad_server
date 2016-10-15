@@ -7,6 +7,9 @@
 const Joi = require( 'joi' );
 const Boom = require( 'boom' );
 const debug = require( 'debug' )( 'breakpad:route:symbols' );
+const Fs=require('fs');
+const Handlebars=require('handlebars');
+const Path=require('path');
 
 module.exports = [
     {
@@ -81,7 +84,7 @@ module.exports = [
 
                 models=models.map((e)=>{
 
-                    e.file_as_string=e.file.toString();
+                    e.file_as_string=e.file ? e.file.toString() : '';
 
                     e.file_as_string = e.file_as_string.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
@@ -120,6 +123,25 @@ module.exports = [
                 //    Authorization: Joi.string().description( 'Jwt token' )
                 //},
             }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/symbols/view',
+        config: { auth: 'jwt' },
+        handler: function ( request, reply ) {
+
+            let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
+            let nav = Fs.readFileSync(Path.join(Path.resolve(),'views/nav.html')).toString();
+
+            head= Handlebars.compile(head)({title:'Symbol'});
+            nav= Handlebars.compile(nav);
+
+            reply.view( 'symbol', {
+                head:head,
+                nav:nav
+            } );
+
         }
     },
 ];

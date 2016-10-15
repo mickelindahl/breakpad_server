@@ -35,7 +35,7 @@ $( document ).ready( ()=> {
             response.forEach( ( r )=> {
 
                 let s=r.id + '-' + r.version + '-' + r.debug_file;
-                select.append('<option value='+s+'>'+s+'</option>');
+                select.append('<option value='+r.id+'>'+s+'</option>');
 
             } );
 

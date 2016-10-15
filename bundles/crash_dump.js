@@ -7,12 +7,6 @@
 let $_ = require( 'jquery' );
 let dt = require( 'datatables.net' )( window, $_ );
 let dt_bs = require( 'datatables.net-bs' )( window, $_ );
-let Util=require('util');
-//
-//window.$ = $_;
-//window.jQuery = $_;
-//let chosen = require('chosen-npm')
-//let chosen = require('chosen-npm')
 
 let data_table;
 
@@ -53,18 +47,24 @@ function get_crash_dumps() {
 
 function stack_walk(id){
 
+
+    let symbol_ids=$('#select_crash_dump').val()
+        ? $('#select_crash_dump').val()
+        : [];
+
     $_.ajax( {
         type: 'POST',
         url: "/stack_walk",
         data:{
-            crash_id:id
+            crash_id:id,
+            symbol_ids:JSON.stringify(symbol_ids.map((e)=>{return Number(e)}))
         },
         success: function ( response ) {
 
             $_('#modal_crash_dumps .modal-body p').html(response.report_html);
 
             var data = data_table.row( id-1 ).data();
-            data[4]=response.report_html
+            data[4]=response.report_html;
             data_table.row( id-1 ).data(data).draw()
 
         },
@@ -78,30 +78,6 @@ function stack_walk(id){
 
 }
 
-
-//
-//function symbols( done ) {
-//
-//    $_.ajax( {
-//        type: 'GET',
-//        url: "/symbols",
-//        success: function ( response ) {
-//
-//            done( response )
-//
-//        },
-//        error: function ( xhr, status, error ) {
-//            var err = eval( "(" + xhr.responseText + ")" );
-//            console.log( err );
-//            alert( "Failed!\n\n" + error );
-//
-//            done( error )
-//        }
-//    } );
-//
-//}
-
-
 $_( document ).ready( ()=> {
 
     let id;
@@ -114,6 +90,7 @@ $_( document ).ready( ()=> {
         .addClass( 'table table-striped table-bordered table-hover' );
 
     data_table = $_( '#crash_dump_table' ).DataTable( {
+        //ordering: true,
         pageLength: 50,
         columnDefs: [
             {
@@ -129,26 +106,9 @@ $_( document ).ready( ()=> {
     $_( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
-
-        //symbols((response)=>{
-
-
-            //let select=$_("#select_crash_dump")
-            //response.forEach((r)=>{
-            //
-            //    select.append(Util.format('<option value=%s>%s</option>',
-            //        r.id+'-'+r.version+'-'+r.debug_file,
-            //        r.id+'-'+r.version+'-'+r.debug_file))
-            //
-            //});
-            //
-            //
-            //$_(".chosen-select").trigger("chosen:updated");
-            //select.trigger('chosen:updated')
-
             id=data[0] //set global
 
-            $_('#modal_crash_dumps_label').html('Crash dump for product '+data[1]+ '  version '+data[2]);
+            $_('#modal_crash_dumps_label').html('Crash dump for <i>'+data[1]+ ' '+data[2]+'</i>');
             $_('#modal_crash_dumps .modal-body p').html(data[4]);
         //})
 

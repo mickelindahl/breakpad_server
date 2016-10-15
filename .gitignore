@@ -16,5 +16,5 @@ node_modules
 # Don't put .env in repo! (Might leak API keys and such)
 .env
 .coveralls.yml
-
+.coverage.html
 

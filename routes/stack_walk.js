@@ -15,9 +15,16 @@ const Promise = require( 'bluebird' );
 const Mkdirp = require( 'mkdirp' );
 const Rmdir = require( 'rmdir' );
 const Util = require( 'util' )
+const file_exists = require( 'file-exists' );
 
 function handlerStackWalk( request, reply ) {
     let Crash_dump = request.server.getModel( 'crash_dump' );
+
+    debug( 'request.payload', request.payload );
+
+    request.payload.symbol_ids = request.payload.symbol_ids
+        ? JSON.parse( request.payload.symbol_ids )
+        : []
 
     Crash_dump.find( { id: request.payload.crash_id } ).then( ( crash_dump )=> {
 
@@ -46,21 +53,23 @@ function handlerStackWalk( request, reply ) {
 
         return new Promise( ( resolve, reject )=> {
 
-            let path = Path.join( Path.resolve(), 'crash_dump' );
+            results.crash_dump_path='crash_dump_'+Uuid.v4();
+
+            let path = Path.join( Path.resolve(), results.crash_dump_path );
             let name = Uuid.v4();
             Mkdirp.sync( path );
 
             debug( 'Creating', Path.join( path, name ) );
 
-            //debug(results.crash_dump.file.toString() )
-
             Fs.writeFileSync( Path.join( path, name ), results.crash_dump.file );
 
             results.crash_dump_file = Path.join( path, name );
-            results.symbol_files = []
+            results.symbol_files = [];
+            results.symbol_path='symbol_'+Uuid.v4();
+
             results.symbols.forEach( ( sym )=> {
 
-                let path = Path.join( Path.resolve(), 'symbols', sym.debug_file, sym.debug_identifier )
+                let path = Path.join( Path.resolve(), results.symbol_path, sym.debug_file, sym.debug_identifier )
                 let name = sym.debug_file + '.sym';
                 Mkdirp.sync( path );
 
@@ -71,12 +80,19 @@ function handlerStackWalk( request, reply ) {
             } );
 
             let parse = ( error, report )=> {
+
+                let header = Util.format( '<font size="3" color="blue">Symbols used: %s<br />Ip: %s<br />User agent: %s<br /><br /></font>',
+                    results.symbols.map( ( e )=> {return e.id + '-' + e.version + '-' + e.debug_file} ).join( ', ' ),
+                    results.crash_dump.ip,
+                    results.crash_dump.user_agent );
+
                 if ( error ) {
 
                     debug( error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ) )
                     results.crash_dump.report = error.toString();
                     results.crash_dump.report_html = Util.format(
-                        '<p><font size="3" color="red">%s</font><br/></p><h4>Crash dump raw</h4><p>%s</p>',
+                        '<p>%s<font size="3" color="red">%s</font><br/></p><h4>Crash dump raw</h4><p>%s</p>',
+                        header,
                         error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ),
                         results.crash_dump.file ? results.crash_dump.file.toString() : results.crash_dump.file )
 
@@ -84,10 +100,12 @@ function handlerStackWalk( request, reply ) {
 
                 }
 
-                results.crash_dump.report = report.toString();
-                results.crash_dump.report_html = report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
+                debug('Symbol files:', results.symbol_files.map( ( e )=> {return e.name} ) );
 
-                resolve( results );
+                results.crash_dump.report = report.toString();
+                results.crash_dump.report_html = header + report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
+
+                resolve( results )
 
             }
 
@@ -116,18 +134,24 @@ function handlerStackWalk( request, reply ) {
 
         debug( 'Deleting', results.crash_dump_file );
         Fs.unlinkSync( results.crash_dump_file );
-        Fs.rmdir( Path.join( Path.resolve(), 'crash_dump' ) )
+        Fs.rmdir( Path.join( Path.resolve(), results.crash_dump_path) )
 
         results.symbol_files.forEach( ( file )=> {
 
             debug( 'Deleting', file );
-            Fs.unlinkSync( Path.join( file.path, file.name ) );
+            let f = Path.join( file.path, file.name );
+
+            if ( file_exists( f ) ) {
+
+                Fs.unlinkSync( f );
+
+            }
 
         } );
 
         return new Promise( ( resolve, reject )=> {
             if ( results.symbols.length > 0 ) {
-                Rmdir( Path.join( Path.resolve(), 'symbols' ), function ( err, dirs, files ) {
+                Rmdir( Path.join( Path.resolve(), results.symbol_path ), function ( err, dirs, files ) {
 
                     if ( err ) {
                         reject( err )
@@ -186,7 +210,7 @@ module.exports = [
                 },
                 payload: {
                     crash_id: Joi.number().required().description( 'Crash dump file id' ),
-                    symbol_ids: Joi.array().items( Joi.number() ).description( 'Optional list of symbol file ids' )
+                    symbol_ids: Joi.string().description( 'Optional JSON string list of symbol file ids' )
                 }
             }
         }

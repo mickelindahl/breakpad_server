@@ -54,7 +54,7 @@ $_( document ).ready( ()=> {
         pageLength: 50,
         columnDefs: [
             {
-                targets: [6],
+                targets: [4],
                 visible: false
             }],
         rowCallback(td, data, index){
@@ -66,8 +66,8 @@ $_( document ).ready( ()=> {
     $_( '#symbol_table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
-        $_('#modal_symbol_label').html('Symbol file '+data[4]+ ' version '+data[1]);
-        $_('#modal_symbol .modal-body p').html(data[6])
+        $_('#modal_symbol_label').html('Symbol file <i>'+data[2]+ ' '+data[1]+ '</i>');
+        $_('#modal_symbol .modal-body p').html(data[4])
 
     } );
 
