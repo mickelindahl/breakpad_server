@@ -17,7 +17,6 @@ lab.experiment( "Crash dump", function () {
     lab.before( { timeout: 3000 }, function ( done ) {
 
         process.env.NODE_ENV = 'test';
-        delete process.env.DATABASE_URL;
 
         var iv = setInterval( function () {
             if ( server.app.readyForTest == true ) {

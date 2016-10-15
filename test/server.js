@@ -36,6 +36,7 @@ lab.experiment( "Crash dump", function () {
 
             delete require.cache[Path.dirname( __dirname ) + '/index.js']
             process.env.NODE_ENV = undefined;
+            delete process.env.DATABASE_URL;
 
             let server = require( "../index.js" );
             let p = new Promise( ( resolve, reject )=> {
