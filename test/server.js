@@ -36,7 +36,7 @@ lab.experiment( "Crash dump", function () {
 
             delete require.cache[Path.dirname( __dirname ) + '/index.js']
             process.env.NODE_ENV = undefined;
-            delete process.env.DATABASE_URL;
+
 
             let server = require( "../index.js" );
             let p = new Promise( ( resolve, reject )=> {
@@ -102,6 +102,7 @@ lab.experiment( "Crash dump", function () {
             //delete require.cache[Path.dirname( __dirname ) + '/index.js'];
             require( 'dotenv' ).config( { path:Path.dirname( __dirname )+ '/testenv' } );
             process.env.HEROKU_WEB_URL= '0.0.0.0:3000';
+            delete process.env.DATABASE_URL;
 
 
             let server = require( "../index.js" );
