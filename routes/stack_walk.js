@@ -24,11 +24,11 @@ function handlerStackWalk( request, reply ) {
 
     request.payload.symbol_ids = request.payload.symbol_ids
         ? JSON.parse( request.payload.symbol_ids )
-        : []
+        : undefined;
 
     Crash_dump.find( { id: request.payload.crash_id } ).then( ( crash_dump )=> {
 
-        return new Promise( ( resolve, reject )=> {
+        return new Promise( ( resolve )=> {
             let Symbols = request.server.getModel( 'symbol' );
 
             if ( request.payload.symbol_ids ) {
@@ -40,6 +40,7 @@ function handlerStackWalk( request, reply ) {
                         symbols: symbols
                     } )
                 } )
+
             } else {
 
                 resolve( {
@@ -51,7 +52,7 @@ function handlerStackWalk( request, reply ) {
         } )
     } ).then( ( results )=> {
 
-        return new Promise( ( resolve, reject )=> {
+        return new Promise( ( resolve )=> {
 
             results.crash_dump_path='crash_dump_'+Uuid.v4();
 
@@ -59,7 +60,7 @@ function handlerStackWalk( request, reply ) {
             let name = Uuid.v4();
             Mkdirp.sync( path );
 
-            debug( 'Creating', Path.join( path, name ) );
+            debug( 'Creating', Path.join( path, name ));
 
             Fs.writeFileSync( Path.join( path, name ), results.crash_dump.file );
 
@@ -85,6 +86,8 @@ function handlerStackWalk( request, reply ) {
                     results.symbols.map( ( e )=> {return e.id + '-' + e.version + '-' + e.debug_file} ).join( ', ' ),
                     results.crash_dump.ip,
                     results.crash_dump.user_agent );
+
+                //debug('error!!!!!',error, results.crash_dump.file.toString())
 
                 if ( error ) {
 
@@ -149,13 +152,9 @@ function handlerStackWalk( request, reply ) {
 
         } );
 
-        return new Promise( ( resolve, reject )=> {
+        return new Promise( ( resolve )=> {
             if ( results.symbols.length > 0 ) {
                 Rmdir( Path.join( Path.resolve(), results.symbol_path ), function ( err, dirs, files ) {
-
-                    if ( err ) {
-                        reject( err )
-                    }
 
                     debug( dirs );
                     debug( files );

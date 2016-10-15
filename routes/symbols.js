@@ -18,7 +18,6 @@ module.exports = [
         handler: ( request, reply  )=> {
 
             debug(  request.headers, request.payload )
-            //reply().code( 201 );
 
             let record = {
                 user_agent: request.headers['user-agent'],
@@ -32,6 +31,10 @@ module.exports = [
             };
 
 
+            if ( process.env.BAD_IMPLEMENTATION == 'true' ) {
+                record.file = 1
+            }
+
             var Model = request.server.getModel( 'symbol' );
 
             Model.create( record ).then( ( models )=> {
@@ -44,11 +47,9 @@ module.exports = [
                 reply( Boom.badImplementation( err.message ) );
 
             } );
-            /**/
 
         },
         config: {
-            //auth:'jwt',
             description: 'Create symbol file entry',
             notes: 'Creates an symbol file entry',
             tags: ['api', 'symbol'],
@@ -61,13 +62,16 @@ module.exports = [
                 options: {
                     allowUnknown: true
                 },
-                //headers: {
-                //    Authorization: Joi.string().description('Jwt token')
-                //},
-                //payload: {
-                //    version:  Joi.string().required().description('Software version symbol file belong to'),
-                //    crash_dump: Joi.binary().required().description('Symbol file'),
-                //}
+                payload: {
+                    user_agent: Joi.string().required().description('Sender user agent'),
+                    version: Joi.string().required().description('Product version symbol file is for'),
+                    cpu: Joi.string().required().description('Symbol cpu type'),
+                    ip:  Joi.string().required().description('IP adress of sender'),
+                    file:  Joi.binary().required().description('Symbol file'),
+                    code_file:Joi.string().required().description('Code file name'),
+                    debug_file:Joi.string().required().description('Symbol file name'),
+                    debug_identifier:Joi.string().required().description('Symbol file identifier'),
+                }
             }
         }
     },
@@ -81,6 +85,10 @@ module.exports = [
             let Model = request.server.getModel('symbol');
 
             Model.find().then((models)=>{
+
+                if ( process.env.BAD_IMPLEMENTATION == 'true' ) {
+                    throw 'err';
+                }
 
                 models=models.map((e)=>{
 
@@ -119,12 +127,10 @@ module.exports = [
                 options: {
                     allowUnknown: true
                 },
-                //headers: {
-                //    Authorization: Joi.string().description( 'Jwt token' )
-                //},
             }
         }
     },
+
     {
         method: 'GET',
         path: '/symbols/view',

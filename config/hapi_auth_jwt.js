@@ -12,7 +12,7 @@ function onPreAuth( request, reply ) {
 
     let cookies = {};
 
-    //debug(request.headers.cookie, request.headers.authorization)
+    debug(request.headers.cookie, request.headers.authorization);
 
     if ( !request.headers.cookie || request.headers.authorization ) {
         return reply.continue();
@@ -29,8 +29,6 @@ function onPreAuth( request, reply ) {
     Jwt.verify( cookies.loredge_jwt, process.env.JWT_SECRET,
         ( err, decoded )=> {
 
-            debug(err)
-
             if ( err ) {
                 return reply.continue();
             }
@@ -45,8 +43,7 @@ function onPreAuth( request, reply ) {
 module.exports = ( server )=> {
 
     let options = {
-        key: process.env.JWT_SECRET || 'magic mike swings his dagger', // oops
-        // auth: 'simple' //auth strategy to use
+        key: process.env.JWT_SECRET
     };
 
     return server.register( {
