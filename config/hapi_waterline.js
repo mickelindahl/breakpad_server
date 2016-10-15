@@ -15,6 +15,8 @@ module.exports=(server)=>{
         ssl: process.env.POSTGRES_REQUIRE_SSL || false
     }
 
+    delete process.env.DATABASE_URL
+
     // If test switch
     if (!process.env.DATABASE_URL) {
         // We are running under test
