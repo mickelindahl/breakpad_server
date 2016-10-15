@@ -54,23 +54,23 @@ function handlerStackWalk( request, reply ) {
 
         return new Promise( ( resolve )=> {
 
-            results.crash_dump_path='crash_dump_'+Uuid.v4();
+            results.crash_dump_path = 'tmp/crash_dump_' + Uuid.v4();
 
             let path = Path.join( Path.resolve(), results.crash_dump_path );
             let name = Uuid.v4();
             Mkdirp.sync( path );
 
-            debug( 'Creating', Path.join( path, name ));
+            debug( 'Creating', Path.join( path, name ) );
 
             Fs.writeFileSync( Path.join( path, name ), results.crash_dump.file );
 
             results.crash_dump_file = Path.join( path, name );
             results.symbol_files = [];
-            results.symbol_path='symbol_'+Uuid.v4();
+            results.symbol_path = 'symbol_' + Uuid.v4();
 
             results.symbols.forEach( ( sym )=> {
 
-                let path = Path.join( Path.resolve(), results.symbol_path, sym.debug_file, sym.debug_identifier )
+                let path = Path.join( Path.resolve(), 'tmp', results.symbol_path, sym.debug_file, sym.debug_identifier )
                 let name = sym.debug_file + '.sym';
                 Mkdirp.sync( path );
 
@@ -103,7 +103,7 @@ function handlerStackWalk( request, reply ) {
 
                 }
 
-                debug('Symbol files:', results.symbol_files.map( ( e )=> {return e.name} ) );
+                debug( 'Symbol files:', results.symbol_files.map( ( e )=> {return e.name} ) );
 
                 results.crash_dump.report = report.toString();
                 results.crash_dump.report_html = header + report.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' );
@@ -133,38 +133,17 @@ function handlerStackWalk( request, reply ) {
 
     } ).then( ( results )=> {
 
-        // delete files
-
-        debug( 'Deleting', results.crash_dump_file );
-        Fs.unlinkSync( results.crash_dump_file );
-        Fs.rmdir( Path.join( Path.resolve(), results.crash_dump_path) )
-
-        results.symbol_files.forEach( ( file )=> {
-
-            debug( 'Deleting', file );
-            let f = Path.join( file.path, file.name );
-
-            if ( file_exists( f ) ) {
-
-                Fs.unlinkSync( f );
-
-            }
-
-        } );
-
         return new Promise( ( resolve )=> {
-            if ( results.symbols.length > 0 ) {
-                Rmdir( Path.join( Path.resolve(), results.symbol_path ), function ( err, dirs, files ) {
+            //if ( results.symbols.length > 0 ) {
+            Rmdir( Path.join( Path.resolve(), 'tmp' ), function ( err, dirs, files ) {
 
-                    debug( dirs );
-                    debug( files );
-                    debug( 'all files are removed' );
-                    resolve( results )
-                } );
-            } else {
+                console.error( err )
+
+                debug( dirs );
+                debug( files );
+                debug( 'all files are removed' );
                 resolve( results )
-            }
-
+            } );
         } )
 
     } ).then( ( results )=> {
@@ -177,8 +156,15 @@ function handlerStackWalk( request, reply ) {
 
     } ).catch( function ( err ) {
 
-        request.server.app.log.error( err );
-        reply( Boom.badImplementation( err.message ) );
+
+        // Clear up
+        Rmdir( Path.join( Path.resolve(), 'tmp' ), function ( err, dirs, files ) {
+
+            request.server.app.log.error( err );
+            reply( Boom.badImplementation( err.message ) );
+
+        } );
+
 
     } );
 }

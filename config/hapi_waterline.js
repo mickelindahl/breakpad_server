@@ -17,13 +17,19 @@ module.exports=(server)=>{
 
     delete process.env.DATABASE_URL
 
+    console.log('!process.env.DATABASE_URL', process.env.DATABASE_URL)
+
     // If test switch
     if (!process.env.DATABASE_URL) {
         // We are running under test
+
         db_connection = {
             adapter: 'memory'
         };
     };
+
+
+    console.log('!process.env.DATABASE_URL', db_connection)
 
     let options={
         adapters: { // adapters declaration
