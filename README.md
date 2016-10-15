@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/mickelindahl/breakpad_server/badge.svg?branch=master)](https://coveralls.io/github/mickelindahl/breakpad_server?branch=master)
 
 
+
 # Breakpad server
 A simple breakpad server built on [Hapi](http://hapijs.com) and postgresql. 
 
