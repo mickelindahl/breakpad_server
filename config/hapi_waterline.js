@@ -15,18 +15,16 @@ module.exports=(server)=>{
         ssl: process.env.POSTGRES_REQUIRE_SSL || false
     }
 
-    delete process.env.DATABASE_URL
-
-    console.log('!process.env.DATABASE_URL', process.env.DATABASE_URL)
 
     // If test switch
-    if (!process.env.DATABASE_URL) {
+    if (!process.env.DATABASE_URL || process.env.NODE_ENV=='test') {
         // We are running under test
 
         db_connection = {
             adapter: 'memory'
         };
     };
+
 
 
     console.log('!process.env.DATABASE_URL', db_connection)

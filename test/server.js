@@ -123,7 +123,7 @@ lab.experiment( "Crash dump", function () {
             } )
         } );
 
-    lab.test( 'Testing server thrwo error',
+    lab.test( 'Testing server throw error',
 
         ( done ) => {
 
@@ -138,16 +138,24 @@ lab.experiment( "Crash dump", function () {
             process.env.NODE_ENV='error'
 
 
-            let server = require( "../index.js" );
             let p = new Promise( ( resolve, reject )=> {
+                try {
 
-                var iv = setInterval( function () {
-                    if ( server.app.readyForTest == true ) {
-                        clearInterval( iv );
-                        resolve( server )
-                    }
-                }, 50 );
+                    let server = require( "../index.js" );
+                    var iv = setInterval( function () {
+                        if ( server.app.readyForTest == true ) {
+                            clearInterval( iv );
+                            resolve( server )
+                        }
+                    }, 50 );
+                }catch(err){
+                    resolve(err)
+                }
+
             } ).then( ( server )=> {
+
+
+                delete process.env.DATABASE_URL
 
                 debug( 'stop' )
                 //server.stop();
@@ -171,6 +179,7 @@ lab.experiment( "Crash dump", function () {
             require( 'dotenv' ).config( { path:Path.dirname( __dirname )+ '/testenv' } );
             process.env.POSTGRES_REQUIRE_SSL=true;
             process.env.NODE_ENV='test'
+            process.env.DATABASE_URL='error';
 
 
             let server = require( "../index.js" );
@@ -183,6 +192,8 @@ lab.experiment( "Crash dump", function () {
                     }
                 }, 50 );
             } ).then( ( server )=> {
+
+                delete process.env.DATABASE_URL
 
                 debug( 'stop' )
                 server.stop();
