@@ -83,7 +83,7 @@ lab.experiment( "Crash dump", function () {
             } ).then( ( server )=> {
 
                 debug( 'stop' )
-                server.stop()
+                server.stop();
                 done()
 
             } )
@@ -135,7 +135,7 @@ lab.experiment( "Crash dump", function () {
 
             //delete require.cache[Path.dirname( __dirname ) + '/index.js'];
             require( 'dotenv' ).config( { path:Path.dirname( __dirname )+ '/testenv' } );
-            process.env.NODE_ENV='error'
+            process.env.NODE_ENV='error';
 
 
             let p = new Promise( ( resolve, reject )=> {
@@ -215,7 +215,7 @@ lab.experiment( "Crash dump", function () {
             //delete require.cache[Path.dirname( __dirname ) + '/index.js'];
             require( 'dotenv' ).config( { path:Path.dirname( __dirname )+ '/testenv' } );
             process.env.POSTGRES_REQUIRE_SSL=true;
-            process.env.NODE_ENV='test'
+            process.env.NODE_ENV='test';
 
 
             let server = require( "../index.js" );
@@ -231,13 +231,12 @@ lab.experiment( "Crash dump", function () {
 
 
                 process.emit('uncaughtException', 'I am an erro')
-                debug( 'stop' )
+                debug( 'stop' );
                 server.stop();
                 done()
 
             } )
         } );
-
 } );
 
 
