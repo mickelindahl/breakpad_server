@@ -16,6 +16,7 @@ const Mkdirp = require( 'mkdirp' );
 const Rmdir = require( 'rmdir' );
 const Util = require( 'util' )
 const file_exists = require( 'file-exists' );
+const path_exists = require('path-exists');
 
 function handlerStackWalk( request, reply ) {
     let Crash_dump = request.server.getModel( 'crash_dump' );
@@ -134,10 +135,7 @@ function handlerStackWalk( request, reply ) {
     } ).then( ( results )=> {
 
         return new Promise( ( resolve )=> {
-            //if ( results.symbols.length > 0 ) {
             Rmdir( Path.join( Path.resolve(), 'tmp' ), function ( err, dirs, files ) {
-
-                console.error( err )
 
                 debug( dirs );
                 debug( files );
@@ -156,14 +154,33 @@ function handlerStackWalk( request, reply ) {
 
     } ).catch( function ( err ) {
 
+        let path=Path.join( Path.resolve(), 'tmp' );
 
-        // Clear up
-        Rmdir( Path.join( Path.resolve(), 'tmp' ), function ( err, dirs, files ) {
+        // foo.js
 
-            request.server.app.log.error( err );
-            reply( Boom.badImplementation( err.message ) );
 
-        } );
+        path_exists(path).then(exists => {
+            console.log(exists);
+
+            if (exists){
+                // Clear up
+                Rmdir( Path.join( Path.resolve(), 'tmp' ), function ( err, dirs, files ) {
+
+                    request.server.app.log.error( err );
+                    reply( Boom.badImplementation( err.message ) );
+
+                } );
+            }else{
+
+                request.server.app.log.error( err );
+                reply( Boom.badImplementation( err.message ) );
+
+            }
+            //=> true
+        });
+
+
+
 
 
     } );
