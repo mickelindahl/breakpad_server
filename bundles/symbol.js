@@ -8,7 +8,6 @@ let $_ = require( 'jquery' );
 let dt = require( 'datatables.net' )( window, $_ );
 let dt_bs = require( 'datatables.net-bs4' )( window, $_ );
 
-
 let data_table;
 
 // Create and dend invite
