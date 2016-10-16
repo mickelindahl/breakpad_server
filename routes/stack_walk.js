@@ -140,6 +140,7 @@ function handlerStackWalk( request, reply ) {
                 debug( dirs );
                 debug( files );
                 debug( 'all files are removed' );
+                debug(results)
                 resolve( results )
             } );
         } )
