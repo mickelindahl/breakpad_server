@@ -2,9 +2,11 @@ body {
     padding-top: 50px;
     font-size: 14px;
 }
+
 font {
     font-size: 14px;
 }
+
 .btn-login {
     border: 2px solid #141414;
     background: none;
@@ -20,7 +22,7 @@ font {
     margin: auto;
 }
 
-.btn-login:disabled{
+.btn-login:disabled {
     background: #3c3c3c;
     border: 2px #3c3c3c;
 }
@@ -33,7 +35,7 @@ font {
 }
 
 /*.container {*/
-    /*margin:50px;*/
+/*margin:50px;*/
 /*}*/
 
 .main {
@@ -46,3 +48,20 @@ font {
 tbody tr {
     cursor: pointer;
 }
+
+
+@media (max-width: 544px) {
+    .navbar .navbar-nav > .nav-item {
+        float: none;
+        margin-left: .1rem;
+    }
+
+    .navbar .navbar-nav {
+        float: none !important;
+    }
+
+    .navbar .collapse.in, .navbar .collapsing {
+        clear: both;
+    }
+}
+

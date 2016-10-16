@@ -1,22 +1,24 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                    aria-controls="navbar" class="navbar-toggle collapsed"><span
-                    class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span
-                    class="icon-bar"></span></button>
-            <a href="#" class="navbar-brand">Crash boom bang</a></div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                {{#if crash_dump}}
-                    <li class="active"><a href="/">Crash dumps</a></li>
-                    <li><a href="/symbols/view">Symbols</a></li>
-                {{else}}
-                    <li><a href="/">Crash dumps</a></li>
-                    <li class="active"><a href="/symbols/view">Symbols</a></li>
-                {{/if}}
 
-            </ul>
-        </div>
+
+<nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
+
+    <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button" data-toggle="collapse" data-target="#navbar"
+            aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        &#9776;
+    </button>
+    <a href="#" class="navbar-brand">Crash boom bang</a>
+    <!--</div>-->
+    <div id="navbar" class="collapse navbar-toggleable-xs">
+        <ul class="nav navbar-nav pull-right">
+            {{#if crash_dump}}
+            <li class="nav-item active"><a class="nav-link" href="/">Crash dumps</a></li>
+            <li class="nav-item"><a class="nav-link" href="/symbols/view">Symbols</a></li>
+            {{else}}
+            <li class="nav-item"><a class="nav-link" href="/">Crash dumps</a></li>
+            <li class="nav-item active"><a class="nav-link" href="/symbols/view">Symbols</a></li>
+            {{/if}}
+
+        </ul>
     </div>
 </nav>
+

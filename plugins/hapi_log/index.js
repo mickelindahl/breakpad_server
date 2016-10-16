@@ -2,7 +2,6 @@
  * Created by Mikael Lindahl on 2016-09-16.
  */
 
-
 'use strict';
 
 let _server;
