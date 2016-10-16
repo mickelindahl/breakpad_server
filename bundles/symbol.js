@@ -5,10 +5,9 @@
 'use strict';
 
 let $_ = require( 'jquery' );
-//let dt = require( 'datatables.net' )( window, $_ );
-let dt_bs = require( 'datatables.net-bs' )( window, $_ );
+let dt = require( 'datatables.net' )( window, $_ );
+let dt_bs = require( 'datatables.net-bs4' )( window, $_ );
 
-//let dt_bs = require( '../plugins/js/datatables.net-bs4.js' )( window, $_ );
 
 let data_table;
 

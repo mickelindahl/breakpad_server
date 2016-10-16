@@ -111,6 +111,8 @@ lab.experiment( "Crash dump", function () {
     lab.test( "Testing for GET all crash dumps with JWT",
          ( done ) => {
 
+             process.env.JWT_SECRET='secret';
+
             Jwt.sign( { foo: 'bar' }, 'secret', {
                 algorithm: 'HS256',
                 expiresIn: "12h"

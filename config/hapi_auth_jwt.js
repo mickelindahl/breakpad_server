@@ -26,6 +26,7 @@ function onPreAuth( request, reply ) {
         return reply.continue();
     }
 
+
     Jwt.verify( cookies.loredge_jwt, process.env.JWT_SECRET,
         ( err, decoded )=> {
 

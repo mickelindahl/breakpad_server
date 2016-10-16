@@ -7,15 +7,15 @@
 const Boom = require( 'boom' );
 const Joi = require( 'joi' );
 const Jwt = require( 'jsonwebtoken' );
-const Handlebars = require('handlebars');
-const Fs = require('fs');
-const Path = require('path');
-const debug = require('debug')('breakpad:login')
+const Handlebars = require( 'handlebars' );
+const Fs = require( 'fs' );
+const Path = require( 'path' );
+const debug = require( 'debug' )( 'breakpad:login' )
+const Util = require('util')
 
 function verifyUser( request, reply ) {
 
-
-    debug(process.env.BREAKPAD_SERVER_USER, request.payload.user)
+    debug( process.env.BREAKPAD_SERVER_USER, request.payload.user )
 
     if ( process.env.BREAKPAD_SERVER_USER != request.payload.user ) {
         return reply( Boom.notFound( 'User not valid' ) );
@@ -63,7 +63,24 @@ module.exports = [
                 expiresIn: "12h"
             } );
 
-            reply( { id_token: id_token } ).code( 201 );
+            var d = new Date();
+            d.setTime(d.getTime() + (0.5*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+
+            let cookie=Util.format('loredge_jwt=%s; Domain=%s; Path=%s; Expires=%s; HttpOnly',
+                id_token,
+                '0.0.0.0',
+                '/',
+                expires
+            );
+
+            debug(cookie);
+
+            // Rules to set cookie via header in resonse. Appearantly, setting domain
+            // to / then one can only change the cookie in the browser if on a page
+            // stemming from / e.g. /login /view and /view/myPage will not be able to
+            // change it from. Still it will be available.
+            reply( { id_token: id_token }).header( 'Set-Cookie', cookie).code( 201 );
 
         }
     },
@@ -73,13 +90,13 @@ module.exports = [
         path: '/login',
         handler: ( request, reply ) => {
 
-            let head = Fs.readFileSync(Path.join(Path.resolve(),'views/head.html')).toString();
-            head= Handlebars.compile(head, {title:'Login'});
+            let head = Fs.readFileSync( Path.join( Path.resolve(), 'views/head.html' ) ).toString();
+            head = Handlebars.compile( head, { title: 'Login' } );
 
             reply.view( 'login', {
-                head: head,
-                title:'Login'
-            } );
+                    head: head,
+                    title: 'Login'
+                } );
         }
 
     }]
