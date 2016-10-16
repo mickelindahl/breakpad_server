@@ -148,6 +148,15 @@ function handlerStackWalk( request, reply ) {
     } ).then( ( results )=> {
 
         return Crash_dump.update( { id: request.payload.crash_id }, results.crash_dump )
+                         .catch((err)=>{
+
+                            debug('Oopps');
+                            debug(err);
+                            debug(results.crash_dump);
+
+                             throw  err
+
+                        })
 
     } ).then( ( models )=> {
 
