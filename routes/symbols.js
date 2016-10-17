@@ -68,7 +68,7 @@ module.exports = [
                     version: Joi.string().description('Product version symbol file is for'),
                     cpu: Joi.string().description('Symbol cpu type'),
                     ip:  Joi.string().description('IP adress of sender'),
-                    file:  Joi.binary()..description('Symbol file'),
+                    file:  Joi.binary().description('Symbol file'),
                     code_file:Joi.string().description('Code file name'),
                     debug_file:Joi.string().description('Symbol file name'),
                     debug_identifier:Joi.string().description('Symbol file identifier'),
