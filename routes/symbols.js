@@ -63,10 +63,10 @@ module.exports = [
                     allowUnknown: true
                 },
                 payload: {
-                    user_agent: Joi.string().required().description('Sender user agent'),
+                    user_agent: Joi.string().description('Sender user agent'),
                     version: Joi.string().required().description('Product version symbol file is for'),
-                    cpu: Joi.string().required().description('Symbol cpu type'),
-                    ip:  Joi.string().required().description('IP adress of sender'),
+                    cpu: Joi.string().description('Symbol cpu type'),
+                    ip:  Joi.string().description('IP adress of sender'),
                     file:  Joi.binary().required().description('Symbol file'),
                     code_file:Joi.string().required().description('Code file name'),
                     debug_file:Joi.string().required().description('Symbol file name'),
