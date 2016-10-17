@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "coveralls": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls",
-    "test": "./node_modules/.bin/lab -l -c test",
+    "test": "./node_modules/.bin/lab -m 10000 -l -c test",
     "test-cov-html": "./node_modules/.bin/lab -l -r html -o coverage.html",
     "start": "node --harmony index.js"
   },

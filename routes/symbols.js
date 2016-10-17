@@ -65,7 +65,7 @@ module.exports = [
                 payload: {
 
                     user_agent: Joi.string().description('Sender user agent'),
-                    version: Joi.string().required().description('Product version symbol file is for'),
+                    version: Joi.string().description('Product version symbol file is for'),
                     cpu: Joi.string().description('Symbol cpu type'),
                     ip:  Joi.string().description('IP adress of sender'),
                     file:  Joi.binary().required().description('Symbol file'),
