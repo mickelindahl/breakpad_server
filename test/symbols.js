@@ -39,9 +39,10 @@ lab.experiment( "Symbol dump", function () {
                 payload: {
                     user_agent: 'the man',
                     version: '0.0.1',
+                    os: 'linux',
                     cpu:'AMD',
                     ip: '0.0.0.0',
-                    file: 'i am a binary string',
+                    symbol_file: 'i am a binary string',
                     code_file:'hej',
                     debug_file:'ho',
                     debug_identifier:'there'
@@ -70,9 +71,10 @@ lab.experiment( "Symbol dump", function () {
                 payload: {
                     user_agent: 'the man',
                     version: '0.0.1',
+                    os: 'linux',
                     cpu:'AMD',
                     ip: '0.0.0.0',
-                    file: 'i am a binary string',
+                    symbol_file: 'i am a binary string',
                     code_file:'hej',
                     debug_file:'ho',
                     debug_identifier:'there'
