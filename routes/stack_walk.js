@@ -154,7 +154,7 @@ function handlerStackWalk( request, reply ) {
 
                             debug('Oopps');
                             debug(err);
-                            debug(results.crash_dump);
+                            //debug(results.crash_dump);
 
                              throw  err
 
