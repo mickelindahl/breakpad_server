@@ -140,12 +140,14 @@ function handlerStackWalk( request, reply ) {
                 debug( dirs );
                 debug( files );
                 debug( 'all files are removed' );
-                debug(results)
+                //debug(results)
                 resolve( results )
             } );
         } )
 
     } ).then( ( results )=> {
+
+        debug('before database update')
 
         return Crash_dump.update( { id: request.payload.crash_id }, results.crash_dump )
                          .catch((err)=>{
