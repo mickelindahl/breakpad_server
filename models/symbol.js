@@ -11,6 +11,7 @@ module.exports = {
     attributes: {
         cpu:'string',
         ip: 'string',
+        os: 'string',
         version: 'string',
         code_file: 'string',
         debug_file: 'string',

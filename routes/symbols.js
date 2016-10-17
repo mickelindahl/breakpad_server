@@ -21,6 +21,7 @@ module.exports = [
 
             let record = {
                 user_agent: request.headers['user-agent'],
+                os: request.payload.os,
                 version: request.payload.version,
                 cpu:request.payload.cpu,
                 ip: request.info.remoteAddress,
@@ -64,14 +65,14 @@ module.exports = [
                 },
                 payload: {
 
-                    user_agent: Joi.string().description('Sender user agent'),
+                    os: Joi.string().required().description('Os symbol file is for'),
                     version: Joi.string().description('Product version symbol file is for'),
-                    cpu: Joi.string().description('Symbol cpu type'),
-                    ip:  Joi.string().description('IP adress of sender'),
-                    file:  Joi.binary().description('Symbol file'),
-                    code_file:Joi.string().description('Code file name'),
-                    debug_file:Joi.string().description('Symbol file name'),
-                    debug_identifier:Joi.string().description('Symbol file identifier'),
+                    cpu: Joi.string().required().description('Symbol cpu type'),
+                    symbol_file:  Joi.binary().required().description('Symbol file'),
+                    code_file:Joi.string().required().description('Code file name'),
+                    debug_file:Joi.string().required().description('Symbol file name'),
+                    debug_identifier:Joi.string().required().description('Symbol file identifier'),
+
                 }
             }
         }
