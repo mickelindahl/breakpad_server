@@ -67,9 +67,11 @@ module.exports = [
             d.setTime(d.getTime() + (0.5*24*60*60*1000));
             var expires = "expires="+ d.toUTCString();
 
+            debug(request.info.host);
+
             let cookie=Util.format('loredge_jwt=%s; Domain=%s; Path=%s; Expires=%s; HttpOnly',
                 id_token,
-                '0.0.0.0',
+                request.info.host.split(':')[0], //important
                 '/',
                 expires
             );
@@ -80,7 +82,8 @@ module.exports = [
             // to / then one can only change the cookie in the browser if on a page
             // stemming from / e.g. /login /view and /view/myPage will not be able to
             // change it from. Still it will be available.
-            reply( { id_token: id_token }).header( 'Set-Cookie', cookie).code( 201 );
+            reply({ id_token: id_token } ).header( 'Set-Cookie', cookie).code(201);
+
 
         }
     },

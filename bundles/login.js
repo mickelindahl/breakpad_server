@@ -7,7 +7,7 @@ var $_=require('jquery');
 
 // Login
 function login() {
-    $_.ajax( {
+    var  geturl=$_.ajax( {
         type: 'POST',
         url: '/login',
         data: {
@@ -15,6 +15,8 @@ function login() {
             password: $_( "#password" ).val(),
         },
         success: function ( response ) {
+
+            alert("done!"+ geturl.getAllResponseHeaders());
 
             var redirect = document.URL.split( '=' );
             var url = redirect.length > 1 ? redirect[1] : location.origin + "/";
