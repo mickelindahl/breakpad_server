@@ -63,6 +63,7 @@ module.exports = [
                     allowUnknown: true
                 },
                 payload: {
+
                     user_agent: Joi.string().description('Sender user agent'),
                     version: Joi.string().required().description('Product version symbol file is for'),
                     cpu: Joi.string().description('Symbol cpu type'),
