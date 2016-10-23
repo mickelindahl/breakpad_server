@@ -14,9 +14,12 @@ else if ( process.env.NODE_ENV == 'test' ) {
     require( 'dotenv' ).load();
 }
 
+
 const Hapi = require( 'hapi' );
 const routes = require( './routes/index' );
 const register = require( './config/plugins' );
+
+
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -37,22 +40,20 @@ register( server ).then( ()=> {
 
     server.app.uri = process.env.HEROKU_WEB_URL || server.info.uri;
 
-    // Start the server if not running under test (required by other module)
-    if  (process.env.NODE_ENV=='error' ){
+    if  (process.env.NODE_ENV=='error' ){ // For testing
         throw 'error'
-    }else if ( process.env.NODE_ENV!='test' ) {
+    }else if ( process.env.NODE_ENV!='test' ) { // Start the server if not running under most tests
         server.start( function () {
             server.app.log.info( 'Server running at:', server.info.uri );
             server.app.readyForTest = true;
         } );
-    } else {
-        // Running from test, don't start server
+    } else { // For most tests
         server.app.readyForTest = true;
     }
 
 } ).catch( ( err )=> {
 
-    server.app.readyForTest = true
+    server.app.readyForTest = true;
     console.error( 'Error when loading plugins',  err )
 
 } );

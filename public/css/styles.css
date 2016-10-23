@@ -39,7 +39,7 @@ font {
 /*}*/
 
 .main {
-    text-align: center;
+    /*text-align: center;*/
     padding: 4%;
     min-height: 68%;
 
@@ -50,18 +50,18 @@ tbody tr {
 }
 
 
-@media (max-width: 544px) {
-    .navbar .navbar-nav > .nav-item {
-        float: none;
-        margin-left: .1rem;
-    }
+/*@media (max-width: 544px) {*/
+    /*.navbar .navbar-nav > .nav-item {*/
+        /*float: none;*/
+        /*margin-left: .1rem;*/
+    /*}*/
 
-    .navbar .navbar-nav {
-        float: none !important;
-    }
+    /*.navbar .navbar-nav {*/
+        /*float: none !important;*/
+    /*}*/
 
-    .navbar .collapse.in, .navbar .collapsing {
-        clear: both;
-    }
-}
+    /*.navbar .collapse.in, .navbar .collapsing {*/
+        /*clear: both;*/
+    /*}*/
+/*}*/
 

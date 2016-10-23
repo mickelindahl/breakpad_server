@@ -3,9 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/mickelindahl/breakpad_server/badge.svg?branch=master)](https://coveralls.io/github/mickelindahl/breakpad_server?branch=master)
 
 
-
 # Breakpad server
-A simple breakpad server built on [Hapi](http://hapijs.com) and postgresql. 
+A simple breakpad server built on [Hapi](http://hapijs.com) and postgresql that works on Heroku straight out of the box. 
+
 
 ## Installation
 Get started with the server by cloning this repo, `cd` into it and install all dependent modules:

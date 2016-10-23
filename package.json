@@ -9,6 +9,9 @@
     "test-cov-html": "./node_modules/.bin/lab -l -r html -o coverage.html",
     "start": "node --harmony index.js"
   },
+  "engines": {
+    "node": "6.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/mickelindahl/hapi_breakpad_server.git"
@@ -33,6 +36,7 @@
   "dependencies": {
     "bluebird": "^3.4.6",
     "boom": "^4.2.0",
+    "bootstrap": "^4.0.0-alpha.5",
     "browserify": "^13.1.0",
     "bunyan": "^1.8.1",
     "bunyan-prettystream": "^0.1.3",
@@ -55,6 +59,7 @@
     "load-css": "^0.1.0",
     "minidump": "^0.9.0",
     "mkdirp": "^0.5.1",
+    "node-sass": "^3.10.1",
     "path-exists": "^3.0.0",
     "rmdir": "^1.2.0",
     "sails-memory": "^0.10.7",
