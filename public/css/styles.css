@@ -45,6 +45,13 @@ font {
 
 }
 
+.main-login {
+    text-align: center;
+    padding: 4%;
+    min-height: 68%;
+
+}
+
 tbody tr {
     cursor: pointer;
 }
