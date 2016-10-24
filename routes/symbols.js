@@ -51,6 +51,7 @@ module.exports = [
 
         },
         config: {
+            payload:{ "maxBytes": 1048576*20 },
             description: 'Create symbol file entry',
             notes: 'Creates an symbol file entry',
             tags: ['api', 'symbol'],

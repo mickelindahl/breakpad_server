@@ -48,8 +48,9 @@ module.exports = [
             /**/
 
         },
-        config: {
 
+        config: {
+            payload:{ "maxBytes": 1048576*20 },
             //auth:'jwt',
             description: 'Create crash dump',
             notes: 'Creates an crash dump',
