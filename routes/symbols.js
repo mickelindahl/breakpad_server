@@ -108,17 +108,6 @@ module.exports = [
 
                 }
 
-
-                //result.rows.forEach(e=>{
-                //    debug( e )
-                //    debug( JSON.stringify(e) )
-                //    debug( JSON.parse(JSON.stringify(e)) )
-                //    debug(typeof e )
-                //
-                //})
-                debug(JSON.parse(JSON.stringify(result.rows)))
-
-
                 reply( JSON.parse(JSON.stringify(result.rows)) )
 
             } );
