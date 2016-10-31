@@ -95,10 +95,7 @@ module.exports = [
                     return reply( Boom.badImplementation( err ) );
                 }
 
-                debug('Fetched bootstrap',result.css.toString())
-
                 reply( result.css.toString() ).header("Content-type","text/css");
-                //reply( 'bajs' )
 
             } );
 

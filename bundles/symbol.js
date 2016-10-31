@@ -20,7 +20,7 @@ function get_crash_dumps() {
 
         dumps.forEach( function ( v ) {
 
-            data_table.row.add( [v.id, v.version, v.debug_file, new Date(v.updatedAt), v.file_as_string] )
+            data_table.row.add( [v.id, v.version, v.debug_file, new Date(v.updated_at)] )
 
         } );
 
@@ -45,6 +45,62 @@ function get_crash_dumps() {
     } );
 }
 
+// Create and dend invite
+function get_crash_dumps() {
+
+    var done = function ( dumps ) {
+
+        data_table.clear();
+
+
+        dumps.forEach( function ( v ) {
+
+            data_table.row.add( [v.id, v.version, v.debug_file, new Date(v.updated_at)] )
+
+        } );
+
+        data_table.draw();
+
+    };
+
+    $_.ajax( {
+        type: 'GET',
+        url: "/symbols",
+        success: function ( response ) {
+
+            done( response )
+
+        },
+        error: function ( xhr, status, error ) {
+            var err = eval( "(" + xhr.responseText + ")" );
+            console.log( err );
+            alert( "Failed!\n\n" + error );
+            done( err )
+        }
+    } );
+}
+
+function get_symbol_file(id,done) {
+
+
+    $_.ajax( {
+        type: 'GET',
+        url: "/symbols/"+id,
+        success: function ( response ) {
+
+            done( response )
+
+        },
+        error: function ( xhr, status, error ) {
+            var err = eval( "(" + xhr.responseText + ")" );
+            console.log( err );
+            alert( "Failed!\n\n" + error );
+            done( err )
+        }
+    } );
+}
+
+
 $_( document ).ready( ()=> {
 
     $_( '#symbol_table' )
@@ -52,11 +108,12 @@ $_( document ).ready( ()=> {
 
     data_table = $_( '#symbol_table' ).DataTable( {
         pageLength: 50,
-        columnDefs: [
-            {
-                targets: [4],
-                visible: false
-            }],
+        //columnDefs: [
+        //    {
+        //        targets: [4],
+        //        visible: false
+        //    }
+        //    ],
         rowCallback(td, data, index){
             td.setAttribute('data-toggle',"modal");
             td.setAttribute('data-target',"#modal_symbol");
@@ -67,7 +124,19 @@ $_( document ).ready( ()=> {
         var data = data_table.row( this ).data();
 
         $_('#modal_symbol_label').html('Symbol file <i>'+data[2]+ ' '+data[1]+ '</i>');
-        $_('#modal_symbol .modal-body p').html(data[4])
+
+        get_symbol_file(data[0], response=>{
+
+            console.log(response)
+
+            //let file=response[0].file
+            // file=file ? file.toString() : '';
+            //
+            // file= file.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+            $_('#modal_symbol .modal-body p').html(response)
+
+        })
 
     } );
 

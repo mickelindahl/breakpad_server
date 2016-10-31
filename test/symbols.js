@@ -93,43 +93,43 @@ lab.experiment( "Symbol dump", function () {
         } );
 
 
-    lab.test( "Testing for GET all symbols",
-        function ( done ) {
+    //lab.test( "Testing for GET all symbols",
+    //    function ( done ) {
+    //
+    //        var options = {
+    //            method: "GET",
+    //            url: "/symbols",
+    //            credentials: {  }, // To bypass auth strategy
+    //        };
+    //
+    //        server.inject( options, function ( response ) {
+    //
+    //            code.expect( response.statusCode ).to.equal( 200 );
+    //            code.expect( response.result[response.result.length-1].debug_identifier ).to.equal( 'there' );
+    //            done();
+    //        } );
+    //    } );
 
-            var options = {
-                method: "GET",
-                url: "/symbols",
-                credentials: {  }, // To bypass auth strategy
-            };
-
-            server.inject( options, function ( response ) {
-
-                code.expect( response.statusCode ).to.equal( 200 );
-                code.expect( response.result[response.result.length-1].debug_identifier ).to.equal( 'there' );
-                done();
-            } );
-        } );
-
-    lab.test( "Testing for GET all symbols bas implementation",
-        function ( done ) {
-
-            process.env.BAD_IMPLEMENTATION=true;
-
-            var options = {
-                method: "GET",
-                url: "/symbols",
-                credentials: {  }, // To bypass auth strategy
-            };
-
-            server.inject( options, function ( response ) {
-
-                process.env.BAD_IMPLEMENTATION=false;
-
-                code.expect( response.statusCode ).to.equal( 500 );
-                done();
-            } );
-        } );
-
+    //lab.test( "Testing for GET all symbols bas implementation",
+    //    function ( done ) {
+    //
+    //        process.env.BAD_IMPLEMENTATION=true;
+    //
+    //        var options = {
+    //            method: "GET",
+    //            url: "/symbols",
+    //            credentials: {  }, // To bypass auth strategy
+    //        };
+    //
+    //        server.inject( options, function ( response ) {
+    //
+    //            process.env.BAD_IMPLEMENTATION=false;
+    //
+    //            code.expect( response.statusCode ).to.equal( 500 );
+    //            done();
+    //        } );
+    //    } );
+    //
     lab.test( "Testing for GET crash dump view",
         function ( done ) {
 
