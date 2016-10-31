@@ -148,44 +148,10 @@ module.exports = [
 
                 models=models.replace(/(?:\r\n|\r|\n)/g, '<br />')
 
-                debug(models)
-
                 reply( models)
 
 
             })
-
-            //Model.query({
-            //    text:"SELECT " +
-            //    "symbol.file " +
-            //    "FROM symbol " +
-            //    "WHERE symbol.id="+request.params.id}, ( err, result )=> {
-            //
-            //        if ( err ) {
-            //
-            //            return reply( Boom.badImplementation( err.message ) );
-            //        }
-            //
-            //
-            //        //result.rows.forEach(e=>{
-            //        //    debug( e )
-            //        //    debug( JSON.stringify(e) )
-            //        //    debug( JSON.parse(JSON.stringify(e)) )
-            //        //    debug(typeof e )
-            //        //
-            //        //})
-            //        debug(JSON.parse(JSON.stringify(result.rows)))
-            //    debug(JSON.parse(JSON.stringify(result.rows))[0].file.data.toString())
-            //    result=JSON.parse(JSON.stringify( result.rows[0])).file.toString()
-            //    result=result.replace(/(?:\r\n|\r|\n)/g, '<br />')
-            //
-            //    debug(result)
-            //
-            //    reply( result)
-            //
-            //        //reply(result )
-            //
-            //    } );
 
         },
 
