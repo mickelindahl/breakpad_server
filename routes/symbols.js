@@ -93,14 +93,14 @@ module.exports = [
                     throw 'err';
                 }
 
-                models=models.map((e)=>{
+                //models=models.map((e)=>{
 
-                    e.file_as_string=e.file ? e.file.toString() : '';
+               //     e.file_as_string=e.file ? e.file.toString() : '';
 
-                    e.file_as_string = e.file_as_string.replace(/(?:\r\n|\r|\n)/g, '<br />');
+               //     e.file_as_string = e.file_as_string.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-                    return e
-                })
+               //     return e
+               // })
 
 
                 reply(models);
