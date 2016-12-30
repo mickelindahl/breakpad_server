@@ -1,0 +1,9 @@
+crashboombang:
+  build: .
+  image: loredge/crashboombang
+  container_name: crashboombang
+  expose:
+    - 4000
+  environment:
+    - "VIRTUAL_HOST=0.0.0.0"
+    - "VIRTUAL_PORT=3000"

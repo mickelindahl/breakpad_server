@@ -18,3 +18,7 @@ node_modules
 .coveralls.yml
 coverage.html
 
+# No docker compose in repo
+
+docker-compose.yml
+
