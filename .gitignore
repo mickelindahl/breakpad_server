@@ -19,6 +19,8 @@ node_modules
 coverage.html
 
 # No docker compose in repo
-
 docker-compose.yml
+
+# No database stuff in repo
+postgres
 
