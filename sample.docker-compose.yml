@@ -8,36 +8,34 @@ services:
   web:
     build: .
     container_name: breakpad_web
+    environment:
+        # -- Alt 2 begin--
+        VIRTUAL_HOST: {domain/subdomain}
+        # -- Alt 2 end --
+    links:
+      - db
+    network_mode: "bridge"
     # -- Alt 1 begin--
     ports:
         - "{os port}:4000"
     # -- Alt 1 end --
-    environment:
-        # -- Alt 2 begin--
-        VIRTUAL_HOST: {domain/subdomain}
-        VIRTUAL_PORT: 4000
-        # -- Alt 2 end --
-    links:
-      - db
+    tty: true
+    restart: always
     volumes:
       - .:/home/app/breakpad
       - node_modules:/home/app/breakpad/node_modules
-    tty: true
-    restart: always
-
-
+    
   db:
     image: postgres:9.6
     container_name: breakpad_db
-    volumes:
-        - ./postrgres/data:/var/lib/postgresql/data
-        - ./postgres/dumpall:/dumpall
-    # -- Alt 1 begin--
-    ports:
-        - "5433:5432"
-    # -- Alt 1 end --
     environment:
         POSTGRES_PASSWORD: secret
         POSTGRES_USER: breakpad
         PGDATA: /var/lib/postgresql/data
+    network_mode: "bridge"
+    ports:
+        - "5433:5432"
     restart: always
+    volumes:
+        - ./postrgres/data:/var/lib/postgresql/data
+        - ./postgres/dumpall:/dumpall
