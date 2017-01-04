@@ -9,6 +9,8 @@ A simple breakpad server built on [Hapi](http://hapijs.com) and postgresql.
 
 ## Installation
 
+Clone the repository and `cd` into it
+
 Copy `sample.env` to `.env` and enter valid keys for your setup.
 
 - `HOST` The host server is running on. For docker use 0.0.0.0
@@ -41,20 +43,18 @@ From app directory run
 mkdir -p postgres/data && mkdir -p postgres/dumpall
 ```
 
-Clone the repository and `cd` into it
-
-Copy `sample.docker-compose.yml` to `docker-compose.yml`. Open it and add DB user and password. Edit it accordingly prefered setup. 
+Copy `sample.docker-compose.yml` to `docker-compose.yml`. Open it and add DB user and password, prefered ports and/or
+VIRTUAL_HOST. Edit it accordingly prefered setup. 
 
 With nginx as a reverse proxy ([nginx/jwilder](https://github.com/jwilder/nginx-proxy)) use:
  ```
  environment:
      VIRTUAL_HOST: {domain/subdomain}
-     VIRTUAL_PORT: 4000/5432
 ```
  Without one can use
  ```
 ports:
-  - "{port os}:4000/5432"
+  - "{port os}:4000"
 ```
 
 Build image and container with:
