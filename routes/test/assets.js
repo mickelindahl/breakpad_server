@@ -4,26 +4,31 @@
 
 'use strict';
 
+const mock=require('mock-require');
+
+require('dotenv').config({ path: './testenv'})
+
+mock('dotenv', {config:(smile)=>{}});
+
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const server = require( "../index.js" );
+const serverPromise = require( "../../index.js" );
 const code = require( "code" );
-const Path = require( 'path' );
-const debug = require( 'debug' )( 'breakpad:test:crash_dumps' );
-const Jwt = require( 'jsonwebtoken' );
+const debug = require( 'debug' )( 'breakpad:test:assets' );
 
-lab.experiment( "Crash dump", function () {
+let _server;
 
-    lab.before( { timeout: 3000 }, function ( done ) {
+lab.experiment( "Assets", function () {
 
-        process.env.NODE_ENV = 'test';
+    lab.before( function ( done ) {
 
-        var iv = setInterval( function () {
-            if ( server.app.readyForTest == true ) {
-                clearInterval( iv );
-                done();
-            }
-        }, 50 );
+        serverPromise.then(server=>{
+
+            _server=server;
+
+            done();
+
+        });
     } );
 
     lab.test( "Testing for GET for bootstrap table test route",
@@ -34,7 +39,7 @@ lab.experiment( "Crash dump", function () {
                 credentials: {}, // To bypass auth strategy
             };
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 200 );
                 done();
             } );
@@ -48,7 +53,7 @@ lab.experiment( "Crash dump", function () {
                 credentials: {}, // To bypass auth strategy
             };
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 302 );
                 done();
             } );
@@ -64,7 +69,7 @@ lab.experiment( "Crash dump", function () {
                 credentials: {}, // To bypass auth strategy
             };
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 200 );
                 done();
             } );
@@ -78,11 +83,9 @@ lab.experiment( "Crash dump", function () {
                 credentials: {}, // To bypass auth strategy
             };
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 500 );
                 done();
             } );
         } );
-
-
 });

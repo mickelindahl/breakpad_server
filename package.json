@@ -5,9 +5,17 @@
   "main": "index.js",
   "scripts": {
     "coveralls": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls",
-    "test": "./node_modules/.bin/lab -m 10000 -l -c test",
-    "test-cov-html": "./node_modules/.bin/lab -l -r html -o coverage.html",
-    "start": "node --harmony index.js"
+    "test": "./node_modules/.bin/lab -m 10000 -l test",
+    "test-server": "./node_modules/.bin/lab -m 10000 -l test/server.js",
+    "test-routes": "./node_modules/.bin/lab -m 10000 -l routes/test test/server.js",
+    "test-crash-dump": "./node_modules/.bin/lab -m 10000 -l routes/test/crash_dumps.js",
+    "test-stack-walk": "./node_modules/.bin/lab -m 10000 -l routes/test/stack_walk.js",
+    "test-symbols": "./node_modules/.bin/lab -m 10000 -l routes/test/stack_walk.js",
+    "test-login": "./node_modules/.bin/lab -m 10000 -l routes/test/login.js",
+    "test-assets": "./node_modules/.bin/lab -m 10000 -l routes/test/assets.js",
+    "test-cov-html": "./node_modules/.bin/lab -l -r html -o coverage.html routes/test test/server.js",
+    "start": "node --harmony index.js",
+    "test-jenkins": "node_modules/.bin/lab -l -r tap -o test.tap -r clover -o clover.xml test"
   },
   "engines": {
     "node": "6.x"
@@ -71,6 +79,7 @@
   "devDependencies": {
     "code": "^4.0.0",
     "coveralls": "^2.11.14",
-    "lab": "^11.1.0"
+    "lab": "^11.1.0",
+    "mock-require": "^2.0.1"
   }
 }
