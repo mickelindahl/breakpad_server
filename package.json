@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "coveralls": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls",
-    "test": "./node_modules/.bin/lab -m 10000 -l test",
+    "test": "./node_modules/.bin/lab -m 10000 -l routes/test test/server.js",
     "test-server": "./node_modules/.bin/lab -m 10000 -l test/server.js",
-    "test-routes": "./node_modules/.bin/lab -m 10000 -l routes/test test/server.js",
+    "test-routes": "./node_modules/.bin/lab -m 10000 -l routes/test",
     "test-crash-dump": "./node_modules/.bin/lab -m 10000 -l routes/test/crash_dumps.js",
     "test-stack-walk": "./node_modules/.bin/lab -m 10000 -l routes/test/stack_walk.js",
     "test-symbols": "./node_modules/.bin/lab -m 10000 -l routes/test/stack_walk.js",
@@ -44,7 +44,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "boom": "^4.2.0",
-    "bootstrap": "^4.0.0-alpha.5",
+    "bootstrap": "^4.0.0-alpha.6",
     "browserify": "^13.3.0",
     "bunyan": "^1.8.5",
     "bunyan-prettystream": "^0.1.3",
@@ -72,6 +72,7 @@
     "rmdir": "^1.2.0",
     "sails-memory": "^0.10.7",
     "sails-postgresql": "^0.11.4",
+    "tether": "^1.4.0",
     "therealyou": "^1.1.0",
     "uuid": "^3.0.1",
     "vision": "^4.1.1"

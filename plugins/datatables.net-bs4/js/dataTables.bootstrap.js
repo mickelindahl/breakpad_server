@@ -3,7 +3,7 @@
  */
 
 /**
- * DataTables integration for Bootstrap 4. This requires Bootstrap 4 and
+ * DataTables integration for Bootstrap 3. This requires Bootstrap 3 and
  * DataTables 1.10 or newer.
  *
  * This file sets the defaults and adds options to DataTables to style its
@@ -46,9 +46,9 @@
 	/* Set the defaults for DataTables initialisation */
 	$.extend( true, DataTable.defaults, {
 		dom:
-		"<'row'<'col-md-6'l><'col-md-6'f>>" +
-		"<'row'<'col-md-12'tr>>" +
-		"<'row'<'col-md-5'i><'col-md-7'p>>",
+		"<'row'<'col-xs-12 col-md-6'l><'col-xs-12 col-md-6'f>>" +
+		"<'row'<'col-xs-12'tr>>" +
+		"<'row'<'col-xs-12 col-md-5'i><'col-xs-12 col-md-7'p>>",
 		renderer: 'bootstrap'
 	} );
 
@@ -99,31 +99,31 @@
 						case 'first':
 							btnDisplay = lang.sFirst;
 							btnClass = button + (page > 0 ?
-												 '' : ' disabled');
+									'' : ' disabled');
 							break;
 
 						case 'previous':
 							btnDisplay = lang.sPrevious;
 							btnClass = button + (page > 0 ?
-												 '' : ' disabled');
+									'' : ' disabled');
 							break;
 
 						case 'next':
 							btnDisplay = lang.sNext;
 							btnClass = button + (page < pages-1 ?
-												 '' : ' disabled');
+									'' : ' disabled');
 							break;
 
 						case 'last':
 							btnDisplay = lang.sLast;
 							btnClass = button + (page < pages-1 ?
-												 '' : ' disabled');
+									'' : ' disabled');
 							break;
 
 						default:
 							btnDisplay = button + 1;
 							btnClass = page === button ?
-									   'active' : '';
+								'active' : '';
 							break;
 					}
 
@@ -131,8 +131,8 @@
 						node = $('<li>', {
 							'class': classes.sPageButton+' '+btnClass,
 							'id': idx === 0 && typeof button === 'string' ?
-								  settings.sTableId +'_'+ button :
-								  null
+							settings.sTableId +'_'+ button :
+								null
 						} )
 							.append( $('<a>', {
 									'href': '#',
@@ -142,7 +142,7 @@
 									'tabindex': settings.iTabIndex,
 									'class': 'page-link'
 								} )
-								.html( btnDisplay )
+									.html( btnDisplay )
 							)
 							.appendTo( container );
 
@@ -174,7 +174,7 @@
 			buttons
 		);
 
-		if ( activeEl ) {
+		if ( activeEl !== undefined ) {
 			$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
 		}
 	};

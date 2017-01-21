@@ -100,6 +100,42 @@ module.exports = [
             } );
 
         }
-    }
+    },
+    {
+        method: 'GET',
+        path: '/tether/{files*}',
+        handler: {
+            directory: {
+                path: 'node_modules/tether/dist'
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/bootstrap/js/{files*}',
+        handler: {
+            directory: {
+                path: 'node_modules/bootstrap/dist/js'
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/jquery/js/{files*}',
+        handler: {
+            directory: {
+                path: 'node_modules/jquery/dist'
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/datatables.net-bs4/{files*}',
+        handler: {
+            directory: {
+                path: 'node_modules/datatables.net-bs4'
+            }
+        }
+    },
 ];
 
