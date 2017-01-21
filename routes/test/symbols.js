@@ -3,30 +3,32 @@
  */
 
 'use strict';
+const mock=require('mock-require');
 
-/**
- * Created by mikael on 9/23/16.
- */
+require('dotenv').config({ path: './testenv'})
+
+mock('dotenv', {config:(smile)=>{}});
 
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const server = require( "../index.js" );
+const serverPromise = require( "../../index.js" );
 const code = require( "code" );
 const Path = require('path');
 const debug=require('debug')('breakpad:test:crash_dumps');
 
+let _server;
+
 lab.experiment( "Symbol dump", function () {
 
-    lab.before( { timeout: 3000 }, function ( done ) {
+    lab.before( function ( done ) {
 
-        process.env.NODE_ENV='test';
+        serverPromise.then(server=>{
 
-        var iv = setInterval( function () {
-            if ( server.app.readyForTest == true ) {
-                clearInterval( iv );
-                done();
-            }
-        }, 50 );
+            _server=server;
+
+            done();
+
+        });
     } );
 
     lab.test( 'Testing for POST symbols',
@@ -51,7 +53,7 @@ lab.experiment( "Symbol dump", function () {
 
             debug(options)
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 201 );
                 code.expect( response.result.id>0 ).to.be.true();
                 done();
@@ -83,7 +85,7 @@ lab.experiment( "Symbol dump", function () {
 
             debug(options)
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
 
                 process.env.BAD_IMPLEMENTATION=false
 
@@ -139,7 +141,7 @@ lab.experiment( "Symbol dump", function () {
                 credentials: {  }, // To bypass auth strategy
             };
 
-            server.inject( options, function ( response ) {
+            _server.inject( options, function ( response ) {
                 code.expect( response.statusCode ).to.equal( 200 );
                 done();
             } );

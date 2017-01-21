@@ -5,21 +5,12 @@
 'use strict';
 
 // Load environment variables from .env or testenv
-if ( process.env.NODE_ENV == 'production' ) {
-    //do nothing
-}
-else if ( process.env.NODE_ENV == 'test' ) {
-    require( 'dotenv' ).config( { path: __dirname + '/testenv' } );
-} else {
-    require( 'dotenv' ).load();
-}
-
+require( 'dotenv' ).config();
 
 const Hapi = require( 'hapi' );
+const Promise = require( 'bluebird' );
 const routes = require( './routes/index' );
 const register = require( './config/plugins' );
-
-
 
 // Create a server with a host and port
 var server = new Hapi.Server();
@@ -31,31 +22,43 @@ server.connection( {
 } );
 
 
-register( server ).then( ()=> {
+let p = new Promise((resolve, reject)=>{
 
-    //Plugins loaded. Set up the rest and get kickin'
+    register( server ).then( ()=> {
 
-    // Add the routes
-    routes( server );
+        //Plugins loaded. Set up the rest and get kickin'
 
-    server.app.uri = process.env.HEROKU_WEB_URL || server.info.uri;
+        // Add the routes
+        routes( server );
 
-    if  (process.env.NODE_ENV=='error' ){ // For testing
-        throw 'error'
-    }else if ( process.env.NODE_ENV!='test' ) { // Start the server if not running under most tests
-        server.start( function () {
-            server.app.log.info( 'Server running at:', server.info.uri );
-            server.app.readyForTest = true;
-        } );
-    } else { // For most tests
-        server.app.readyForTest = true;
-    }
+        server.app.uri = process.env.HEROKU_WEB_URL || server.info.uri;
 
-} ).catch( ( err )=> {
+        if ( process.env.NODE_ENV == 'test' ) {
 
-    server.app.readyForTest = true;
-    console.error( 'Error when loading plugins',  err )
+            resolve(server)
 
-} );
+        }else {
 
-module.exports = server;
+            // Start the server if not running under most tests
+            server.start( function () {
+
+                server.app.log.info( 'Server running at:', server.info.uri );
+
+                resolve(server)
+
+            } );
+
+        }
+
+    } ).catch( ( err )=> {
+
+        console.error( err );
+        reject(server)
+
+    } );
+
+});
+
+
+
+module.exports = p;
