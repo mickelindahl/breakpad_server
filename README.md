@@ -67,3 +67,7 @@ If all when fine then the server should be up and running
 
 The database can be access externally through 
 
+## Jenkins
+node-gyp is needed so add node-gyp as global package for the node installation
+and also ensure that make is installed in jenkins container. 
+Enter jenkins container as root docker exec -it jenkins --user root /bin/bash and runapt-get install build-essential
