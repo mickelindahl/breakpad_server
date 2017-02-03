@@ -3,44 +3,28 @@
  */
 
 'use strict';
-
 let $_ = require( 'jquery' );
-let dt = require( 'datatables.net' )( window, $_ );
-let dt_bs = require( 'datatables.net-bs4' )( window, $_ );
+
+let util=require('./lib/util');
 
 let data_table;
+let crash_dumps;
 
-// Create and dend invite
 function get_crash_dumps() {
-
-    var done = function ( dumps ) {
-
-        data_table.clear();
-
-
-        dumps.forEach( function ( v ) {
-
-            data_table.row.add( [v.id, v.product, v.version, new Date(v.createdAt), v.report_html ? v.report_html : ''] )
-
-        } );
-
-        data_table.draw();
-
-    };
 
     $_.ajax( {
         type: 'GET',
         url: "/crash_dumps",
         success: function ( response ) {
 
-            done( response )
+            crash_dumps=response
 
         },
         error: function ( xhr, status, error ) {
             var err = eval( "(" + xhr.responseText + ")" );
             console.log( err );
             alert( "Failed!\n\n" + error );
-            done( err )
+
         }
     } );
 }
@@ -86,38 +70,23 @@ $_( document ).ready( ()=> {
         stack_walk(id)
     });
 
-    $_( '#crash_dump_table' )
+    $_( '#crash-dump-table' )
         .addClass( 'table table-striped table-bordered table-hover' );
 
-    data_table = $_( '#crash_dump_table' ).DataTable( {
-        //ordering: true,
-        pageLength: 50,
-        columnDefs: [
-            {
-                targets: [4],
-                visible: false
-            }],
-        rowCallback(td, data, index){
-            td.setAttribute('data-toggle',"modal")
-            td.setAttribute('data-target',"#modal_crash_dumps");
+    data_table = util.createTable({
+        table_id:'crash-dump-table',
+        modal_id:'crash-dump-modal'
+    });
 
-        }
-    } );
-    $_( '#crash_dump_table tbody' ).on( 'click', 'tr', function () {
-        var data = data_table.row( this ).data();
+    $_( '#crash-dump-table tbody' ).on( 'click', 'tr', function () {
 
-            id=data[0] //set global
+        let data=crash_dumps[this.getAttribute('row-id')]
 
-            $_('#modal_crash_dumps_label').html('Crash dump for <i>'+data[1]+ ' '+data[2]+'</i>');
-            $_('#modal_crash_dumps .modal-body p').html(data[4]);
-        //})
-
-
-
+        $_('#crash-dump-modal-label').html('Crash dump for <i>'+data.product+ ' '+data.version+'</i>');
+        $_('#crash-dump-modal .modal-body p').html(data.report_html);
 
     } );
 
-    $_( '#crash_dump_table' ).css( { display: 'table' } )
     get_crash_dumps();
 
 

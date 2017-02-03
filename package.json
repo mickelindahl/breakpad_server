@@ -67,6 +67,7 @@
     "load-css": "^0.1.0",
     "minidump": "^0.11.0",
     "mkdirp": "^0.5.1",
+    "moment": "^2.17.1",
     "node-sass": "^4.3.0",
     "path-exists": "^3.0.0",
     "rmdir": "^1.2.0",

@@ -120,26 +120,26 @@ module.exports = [
         }
     },
     // This route is required for serving assets referenced from our html files
-    {
-        method: 'GET',
-        path: '/crash_dumps/view',
-        config: {
-            tags: ['api', 'crash_dump'],
-            auth: 'jwt'
-        },
-        handler: function ( request, reply ) {
-
-            let head = Fs.readFileSync( Path.join( Path.resolve(), 'views/head.html' ) ).toString();
-            let nav = Fs.readFileSync( Path.join( Path.resolve(), 'views/nav.html' ) ).toString();
-
-            head = Handlebars.compile( head )( { title: 'Crash dumps' } );
-            nav = Handlebars.compile( nav )( { crash_dump: 'bajs' } );
-
-            reply.view( 'crash_dump', {
-                head: head,
-                nav: nav
-            } );
-
-        }
-    },
+    //{
+    //    method: 'GET',
+    //    path: '/crash_dumps/view',
+    //    config: {
+    //        tags: ['api', 'crash_dump'],
+    //        auth: 'jwt'
+    //    },
+    //    handler: function ( request, reply ) {
+    //
+    //        let head = Fs.readFileSync( Path.join( Path.resolve(), 'views/head.html' ) ).toString();
+    //        let nav = Fs.readFileSync( Path.join( Path.resolve(), 'views/nav.html' ) ).toString();
+    //
+    //        head = Handlebars.compile( head )( { title: 'Crash dumps' } );
+    //        nav = Handlebars.compile( nav )( { crash_dump: 'bajs' } );
+    //
+    //        reply.view( 'crash_dump', {
+    //            head: head,
+    //            nav: nav
+    //        } );
+    //
+    //    }
+    //},
 ];

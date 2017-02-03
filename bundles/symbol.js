@@ -5,8 +5,7 @@
 'use strict';
 
 let $_ = require( 'jquery' );
-let dt = require( 'datatables.net' )( window, $_ );
-let dt_bs = require( 'datatables.net-bs4' )( window, $_ );
+let util=require('lib/util')
 
 let data_table;
 
@@ -46,7 +45,7 @@ function get_crash_dumps() {
 }
 
 // Create and dend invite
-function get_crash_dumps() {
+function get_symbols() {
 
     var done = function ( dumps ) {
 
@@ -106,24 +105,14 @@ $_( document ).ready( ()=> {
     $_( '#symbol_table' )
         .addClass( 'table table-striped table-bordered table-hover' );
 
-    data_table = $_( '#symbol_table' ).DataTable( {
-        pageLength: 50,
-        //columnDefs: [
-        //    {
-        //        targets: [4],
-        //        visible: false
-        //    }
-        //    ],
-        rowCallback(td, data, index){
-            td.setAttribute('data-toggle',"modal");
-            td.setAttribute('data-target',"#modal_symbol");
-
-        }
-    } );
-    $_( '#symbol_table tbody' ).on( 'click', 'tr', function () {
+    data_table = util.createTable({
+        table_id:'symbol-table',
+        modal_id:'symbol-modal'
+    });
+    $_( '#symbol-table tbody' ).on( 'click', 'tr', function () {
         var data = data_table.row( this ).data();
 
-        $_('#modal_symbol_label').html('Symbol file <i>'+data[2]+ ' '+data[1]+ '</i>');
+        $_('#symbol-modal-label').html('Symbol file <i>'+data[2]+ ' '+data[1]+ '</i>');
 
         get_symbol_file(data[0], response=>{
 
@@ -134,14 +123,14 @@ $_( document ).ready( ()=> {
             //
             // file= file.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-            $_('#modal_symbol .modal-body p').html(response)
+            $_('#symbol-modal .modal-body p').html(response)
 
         })
 
     } );
 
-    $_( '#symbol_table' ).css( { display: 'table' } )
-    get_crash_dumps()
+    $_( '#symbol-table' ).css( { display: 'table' } )
+    get_symbols()
 
 
 } );

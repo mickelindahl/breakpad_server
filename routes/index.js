@@ -11,6 +11,7 @@ module.exports = function (server){
         '../routes/assets',
         '../routes/login',
         '../routes/crash_dumps',
+        '../routes/pages',
         '../routes/stack_walk',
         '../routes/symbols',
     ];
