@@ -13,6 +13,7 @@ module.exports=(server)=> {
         require('./hapi_redirect'),
         require('./hapi_swagger'),
         require('./hapi_waterline'),
+        require('./hapi_orchestra_view'),
         (s) => {
             return s.register(require('inert'))
         },

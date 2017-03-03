@@ -5,7 +5,7 @@
 'use strict';
 
 let $_ = require( 'jquery' );
-let util=require('lib/util')
+let util=require('./lib/util')
 
 let data_table;
 

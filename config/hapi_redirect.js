@@ -10,7 +10,7 @@ module.exports=(server)=>{
 
     let options = {
         status_code: "401", // if the statusCode is 401 redirect to /login page/endpoint
-        redirect: '/login'
+        redirect: '/auth'
     };
 
     return server.register( {

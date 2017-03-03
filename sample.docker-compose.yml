@@ -1,5 +1,5 @@
 
-version: "2"
+version: "3"
 
 volumes:
   node_modules:
@@ -9,6 +9,7 @@ services:
     build: .
     container_name: breakpad_web
     environment:
+        HOME: /home/app
         # -- Alt 2 begin--
         VIRTUAL_HOST: {domain/subdomain}
         # -- Alt 2 end --
@@ -24,6 +25,8 @@ services:
     volumes:
       - .:/home/app/breakpad
       - node_modules:/home/app/breakpad/node_modules
+    expose:
+      - "4000"
     
   db:
     image: postgres:9.6

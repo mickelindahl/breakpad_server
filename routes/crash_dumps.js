@@ -7,6 +7,7 @@
 const Joi = require( 'joi' );
 const Boom = require( 'boom' );
 const debug = require( 'debug' )( 'breakpad:route:crash_dumps' );
+const controllers = require('../controllers/crash_dumps,js')
 const Path = require( 'path' );
 const Fs = require( 'fs' );
 const Handlebars = require( 'handlebars' );
@@ -15,40 +16,7 @@ module.exports = [
     {
         method: 'POST',
         path: '/crash_dumps',
-        handler: ( request, reply )=> {
-
-            let record = {
-                user_agent: request.headers['user-agent'],
-                product: request.payload.prod,
-                version: request.payload.ver,
-                ip: request.info.remoteAddress,
-                file: request.payload.upload_file_minidump
-            };
-
-            debug( request.payload )
-
-            if ( process.env.BAD_IMPLEMENTATION == 'true' ) {
-                record.file = 1
-            }
-
-            debug( record )
-
-            var Model = request.server.getModel( 'crash_dump' );
-
-            Model.create( record ).then( ( models )=> {
-
-                reply( models ).code( 201 );
-
-            } ).catch( ( err )=> {
-
-                request.server.app.log.error( err );
-                reply( Boom.badImplementation( err.message ) );
-
-            } );
-            /**/
-
-        },
-
+        handler: controllers.create,
         config: {
             payload:{ "maxBytes": 1048576*20 },
             //auth:'jwt',
@@ -76,31 +44,10 @@ module.exports = [
     {
         method: 'GET',
         path: '/crash_dumps',
-        handler: ( request, reply )=> {
-
-            let Model = request.server.getModel( 'crash_dump' );
-
-
-            Model.find().then( ( models )=> {
-
-                if ( process.env.BAD_IMPLEMENTATION == 'true' ) {
-                    throw 'err';
-                }
-
-                reply( models );
-
-            } ).catch( function ( err ) {
-
-                request.server.app.log.error( '!!!!!!!', err );
-                reply( Boom.badImplementation( err.message ) );
-
-            } );
-
-        },//handler.getAll({model:'crash_dump'}),
+        handler:controllers.get,
         config: {
             auth: 'jwt',
             description: 'Get all crash dumps',
-            notes: 'Gets all crash dumps',
             tags: ['api', 'crash_dump'],
             plugins: {
                 'hapi-swagger': {
@@ -119,6 +66,19 @@ module.exports = [
             }
         }
     },
+
+    {
+
+        method: 'GET',
+        config: {
+            tags: ['api', 'crash_dump'],
+            auth: 'jwt'
+        },
+        path: '/crash-dump',
+        handler: controllers.getView
+
+    },
+
     // This route is required for serving assets referenced from our html files
     //{
     //    method: 'GET',

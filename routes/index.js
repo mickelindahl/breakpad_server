@@ -9,11 +9,11 @@ module.exports = function (server){
 
     var paths=[
         '../routes/assets',
-        '../routes/login',
-        '../routes/crash_dumps',
-        '../routes/pages',
-        '../routes/stack_walk',
-        '../routes/symbols',
+        '../routes/auth',
+        //'../routes/crash_dumps',
+        //'../routes/pages',
+        //'../routes/stack_walk',
+        //'../routes/symbols',
     ];
 
     for (var i in paths){

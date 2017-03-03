@@ -61,4 +61,4 @@ let p = new Promise((resolve, reject)=>{
 
 
 
-module.exports = p;
+module.exports = {promise:p, server:server};
