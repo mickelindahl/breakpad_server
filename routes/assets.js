@@ -57,7 +57,7 @@ module.exports = [
     // Browserify bundles
     {
         method: 'GET',
-        path: '/bundle/main.js',
+        path: '/bundle/{file}',
         handler: controllers.getBundle
     },
 ];

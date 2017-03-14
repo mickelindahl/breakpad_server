@@ -30,11 +30,13 @@ function handlerStackWalk( request, reply ) {
     Crash_dump.find( { id: request.payload.crash_id } ).then( ( crash_dump )=> {
 
         return new Promise( ( resolve )=> {
-            let Symbols = request.server.getModel( 'symbol' );
+            let Symbol = request.server.getModel( 'symbol' );
 
             if ( request.payload.symbol_ids ) {
                 let criteria = request.payload.symbol_ids.map( ( e )=> {return { id: e }} )
-                Symbols.find( criteria ).then( ( symbols )=> {
+                Symbol.find( criteria ).then( ( symbols )=> {
+
+                    debug('symbols found!!', symbols)
 
                     resolve( {
                         crash_dump: crash_dump[0],
@@ -43,6 +45,8 @@ function handlerStackWalk( request, reply ) {
                 } )
 
             } else {
+
+                debug('symbols not found!!')
 
                 resolve( {
                     crash_dump: crash_dump[0],
@@ -83,7 +87,7 @@ function handlerStackWalk( request, reply ) {
 
             let parse = ( error, report )=> {
 
-                let header = Util.format( '<font size="3" color="blue">Symbols used: %s<br />Ip: %s<br />User agent: %s<br /><br /></font>',
+                let header = Util.format( '<font size="3" color="blue">Symbols used: %s<br /> Ip: %s<br />User agent: %s<br /><br /></font>',
                     results.symbols.map( ( e )=> {return e.id + '-' + e.version + '-' + e.debug_file} ).join( ', ' ),
                     results.crash_dump.ip,
                     results.crash_dump.user_agent );

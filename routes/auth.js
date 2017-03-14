@@ -34,7 +34,7 @@ module.exports = [
     {
 
         method: 'POST',
-        path: '/auth',
+        path: '/auth/login',
         config: {
             pre: [
                 { method: verifyUser },

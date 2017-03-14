@@ -10,6 +10,7 @@ const debug = require( 'debug' )( 'breakpad:route:symbols' );
 const Fs = require( 'fs' );
 const Handlebars = require( 'handlebars' );
 const Path = require( 'path' );
+const controllers = require('../controllers/symbols')
 
 module.exports = [
     {
@@ -136,19 +137,22 @@ module.exports = [
 
     {
         method: 'GET',
-        path: '/symbols/{id}',
+        path: '/symbol/details/{id}',
         handler: ( request, reply )=> {
 
             let Model = request.server.getModel( 'symbol' );
 
 
-            Model.find({id:request.params.id}).then(models=>{
+            Model.findOne(
+                {where:{id:request.params.id},
+                select:['version', 'debug_file', 'file']}).then(model=>{
 
-                models= models[0].file.toString()
 
-                models=models.replace(/(?:\r\n|\r|\n)/g, '<br />')
+                model.file= model.file.toString()
 
-                reply( models)
+                model.file=model.file.replace(/(?:\r\n|\r|\n)/g, '<br />')
+
+                reply( model)
 
 
             })
@@ -179,19 +183,8 @@ module.exports = [
         method: 'GET',
         path: '/symbols/view',
         config: { auth: 'jwt' },
-        handler: function ( request, reply ) {
+        handler: controllers.getView,
 
-            let head = Fs.readFileSync( Path.join( Path.resolve(), 'views/head.html' ) ).toString();
-            let nav = Fs.readFileSync( Path.join( Path.resolve(), 'views/nav.html' ) ).toString();
 
-            head = Handlebars.compile( head )( { title: 'Symbol' } );
-            nav = Handlebars.compile( nav );
-
-            reply.view( 'symbol', {
-                head: head,
-                nav: nav
-            } );
-
-        }
     },
 ];

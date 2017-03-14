@@ -1,0 +1,45 @@
+<script id="crash-dump-details-template" type="text/x-handlebars-template">
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="crash-dump-modal-label">
+            Crash dump for <i>{{product}} {{version}}</i>
+        </h4>
+        <button id="walk"
+                crash-dump-id="{{id}}"
+                type="button"
+                class="btn btn-primary">
+            Walk
+        </button>
+        <button id="clear_select"
+                type="button"
+                class="btn btn-primary">
+            Clear
+        </button>
+        <select id="select_crash_dump"
+                class="custom-select"
+                data-placeholder="Symbol files...">
+            {{#each symbols}}
+
+            <option value="{{id}}">{{code_file}} {{version}}</option>
+
+            {{/each}}
+        </select>
+        <button type="button"
+                class="close pull-right"
+                data-dismiss="modal"
+                aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+
+    </div>
+    <div class="modal-body">
+        <p>
+            {{{report_html}}}
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>
+</script>

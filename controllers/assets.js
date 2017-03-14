@@ -4,6 +4,7 @@
 
 'use strict';
 
+const debug = require('debug')('breakpad:controllers:assets');
 const Boom = require( 'boom' );
 const Browserify = require('browserify');
 const fs = require('fs');
@@ -69,9 +70,13 @@ module.exports={
 
     getBundle:( request, reply )=> {
 
+        debug('request.params', request.params)
+
+        var file = request.params.file;
+
         let b = Browserify();
 
-        b.add( path.join( path.resolve(), 'bundles/main.js' ) );
+        b.add( path.join( path.resolve(), 'bundles/'+file ) );
         b.bundle( ( err, js )=> {
 
             if ( err ) {

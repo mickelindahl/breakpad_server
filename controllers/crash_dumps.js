@@ -4,10 +4,11 @@
 
 'use strict';
 
-const handler = require( '../index,js' ).handler.getOrchestraView
+const moment = require('moment');
+const handler = require( '../index' ).server.methods.handler;
 const debug = require( 'debug' )( 'breakpad:controllers:crash_dumps' );
 
-module.export = {
+module.exports = {
     create: ( request, reply ) => {
 
         let record = {
@@ -42,17 +43,29 @@ module.export = {
 
     },
 
-    get: ( request, reply ) => {
+    getDetails: ( request, reply ) => {
 
         let Model = request.server.getModel( 'crash_dump' );
 
-        Model.find().then( ( models ) => {
+        let Symbol = request.server.getModel( 'symbol' );
+
+        debug('get', request.params.id)
+
+        Model.findOne({id:request.params.id}).then( ( model ) => {
 
             if ( process.env.BAD_IMPLEMENTATION == 'true' ) {
                 throw 'err';
             }
 
-            reply( models );
+            Symbol.find({select:['version', 'code_file', 'id']})
+                   .then(symbols=>{
+
+                        model.symbols=symbols;
+                       reply( model );
+
+                   })
+
+
 
         } ).catch( function ( err ) {
 
@@ -63,36 +76,45 @@ module.export = {
 
     },//handler.getAll({model:'crash_dump'}),
 
-    getView: () => {
-        return handler( {
-            substitute: {
-                body: '../crash_dump.html'
-            },
+    getView: handler.getOrchestraView( {
+
+        callbacks: [
+            ( request, options, done ) => {
+
+                debug('request.server.getModel!!!')
+
+                request.server.getModel( 'crash_dump' ).find( {
+                    select: ['id', 'product', 'version', 'createdAt']
+                } ).then( models => {
+
+                    debug('models',models)
+
+                    models.forEach( m => {
+
+                        m.createdAt = moment( m.createdAt ).format( 'YYYY-MM-DD HH:mm' )
+
+                    } );
+
+                    options.crash_dumps = models;
+
+                    debug( models )
+
+                    done()
+
+                } )
+
+            }],
+            director: 'director',
+            include: [
+                'icons',
+                'head',
+                'nav',
+                'crash_dumps',
+                'crash_dump_details',
+                'scripts'],
             params: {
-                scripts: ["/bundles/crash_dump.js", "/js/crash_dump.js"],
-                callbacks: [
-                    ( request, options, done ) => {
+                bundle: '/bundle/crash_dumps.js',
 
-                        request.server.getModel( 'crash_dump' ).find( {
-                            select: ['id', 'product', 'version', 'createdAt']
-                        } ).then( models => {
-
-                            models.forEach( m => {
-
-                                m.createdAt = moment( m.createdAt ).format( 'YYYY-MM-DD HH:mm' )
-
-                            } );
-
-                            options.crash_dumps = models;
-
-                            debug( models )
-
-                            done()
-
-                        } )
-
-                    }]
-            }
-        } )
-    }
+            },
+    })
 }

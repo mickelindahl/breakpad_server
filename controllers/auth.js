@@ -4,6 +4,7 @@
 
 'use strict';
 
+const debug = require('debug')('breakpad:controllers:auth')
 const Jwt = require( 'jsonwebtoken' );
 const Path = require( 'path' );
 const Util = require('util')
@@ -27,7 +28,7 @@ module.exports = {
 
         debug( request.info.host );
 
-        let cookie = Util.format( 'loredge_jwt=%s; Domain=%s; Path=%s; Expires=%s; HttpOnly',
+        let cookie = Util.format( 'token=%s; Domain=%s; Path=%s; Expires=%s; HttpOnly',
             id_token,
             request.info.host.split( ':' )[0], //important
             '/',
@@ -47,7 +48,7 @@ module.exports = {
 loginView: handler.getOrchestraView( {
     director:'director',
     include: ['head', 'auth', 'scripts'],
-    params:{bundle:'/bundle/main.js'},
+    params:{bundle:'/bundle/auth.js'},
 } )
 
 }

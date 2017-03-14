@@ -10,10 +10,10 @@ module.exports = function (server){
     var paths=[
         '../routes/assets',
         '../routes/auth',
-        //'../routes/crash_dumps',
+        '../routes/crash_dumps',
         //'../routes/pages',
-        //'../routes/stack_walk',
-        //'../routes/symbols',
+        '../routes/stack_walk',
+        '../routes/symbols',
     ];
 
     for (var i in paths){

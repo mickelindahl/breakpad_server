@@ -1,20 +1,28 @@
 <div class="container flex-column m-5">
-    <table id="crash-dump-table" class="table" cellspacing="0" width="100%" style="display: none">
+    <table id="crash-dump-table" class="table">
         <thead class="bg-primary">
         <tr>
             <th>Id</th>
             <th>Product</th>
             <th>Version</th>
             <th>Date</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {{#each crash_dumps}}
-        <tr row-id="{{id}}">
+        <tr data-toggle="modal"
+            data-target="crash-dump-modal"
+            row-id="{{id}}">
             <td>{{id}}</td>
             <td>{{product}}</td>
             <td>{{version}}</td>
             <td>{{createdAt}}</td>
+            <td>
+                <svg class="icon">
+                    <use xlink:href="#icon-bin"></use>
+                </svg>
+            </td>
         </tr>
         {{/each}}
         </tbody>
@@ -23,26 +31,8 @@
 </body>
 
 <div class="modal fade" id="crash-dump-modal" tabindex="-1" role="dialog" aria-labelledby="crash-dump-modal-label">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="crash-dump-modal-label">Crash dump</h4>
-                <button id="walk" type="button" class="btn btn-primary">Walk</button>
-                <button id="clear_select" type="button" class="btn btn-primary">Clear</button>
-                <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <select id="select_crash_dump" multiple data-placeholder="Symbol files...">
-                </select>
+    <div id="crash-dump-view" class="modal-dialog modal-lg" role="document">
 
-            </div>
-            <div class="modal-body">
-                <p>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
     </div>
 </div>
 

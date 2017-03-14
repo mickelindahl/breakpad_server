@@ -7,7 +7,7 @@
 const Joi = require( 'joi' );
 const Boom = require( 'boom' );
 const debug = require( 'debug' )( 'breakpad:route:crash_dumps' );
-const controllers = require('../controllers/crash_dumps,js')
+const controllers = require('../controllers/crash_dumps');
 const Path = require( 'path' );
 const Fs = require( 'fs' );
 const Handlebars = require( 'handlebars' );
@@ -43,8 +43,8 @@ module.exports = [
 
     {
         method: 'GET',
-        path: '/crash_dumps',
-        handler:controllers.get,
+        path: '/crash_dumps/details/{id}',
+        handler:controllers.getDetails,
         config: {
             auth: 'jwt',
             description: 'Get all crash dumps',
@@ -74,7 +74,7 @@ module.exports = [
             tags: ['api', 'crash_dump'],
             auth: 'jwt'
         },
-        path: '/crash-dump',
+        path: '/',
         handler: controllers.getView
 
     },

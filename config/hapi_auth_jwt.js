@@ -4,7 +4,7 @@
 
 'use strict';
 
-let debug = require( 'debug' )( 'breakpad:hapi-auth-jwt' );
+let debug = require( 'debug' )( 'breakpad:config:hapi_auth_jwt' );
 const Jwt = require( 'jsonwebtoken' );
 
 // Modify header authorization if JWT cookei is present
@@ -22,19 +22,19 @@ function onPreAuth( request, reply ) {
         cookies[v.split( '=' )[0].replace(/\s+/, "") ] = v.split( '=' )[1]
     } );
 
-    if ( cookies.loredge_jwt == undefined ) {
+    if ( cookies.token == undefined ) {
         return reply.continue();
     }
 
 
-    Jwt.verify( cookies.loredge_jwt, process.env.JWT_SECRET,
+    Jwt.verify( cookies.token, process.env.JWT_SECRET,
         ( err, decoded )=> {
 
             if ( err ) {
                 return reply.continue();
             }
 
-            request.headers.authorization = 'Bearer ' + cookies.loredge_jwt;
+            request.headers.authorization = 'Bearer ' + cookies.token;
             request.auth.credentials = decoded;
             reply.continue();
         }

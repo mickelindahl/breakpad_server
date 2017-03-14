@@ -7,9 +7,10 @@ thead {
   margin-right: auto;
   max-width: 1090px;
 }
-.dataTables_wrapper{
-  display: none;
-}
+
+//.dataTables_wrapper{
+//  display: none;
+//}
 
 #login-div {
   max-width: 350px;
@@ -32,6 +33,15 @@ thead {
 
 tbody tr {
   cursor: pointer;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
 }
 
 

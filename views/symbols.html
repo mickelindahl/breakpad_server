@@ -1,0 +1,52 @@
+<div class="container flex-column m-5">
+    <table id="symbol-table" class="table" cellspacing="0" width="100%">
+        <thead class="thead-inverse">
+        <tr>
+            <th>Id</th>
+            <th>Version</th>
+            <th>Symbol</th>
+            <th>Date</th>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each symbols}}
+        <tr row-id="{{id}}">
+            <td data-toggle="modal"
+                data-target="#symbol-modal">
+                {{id}}
+            </td>
+            <td data-toggle="modal"
+                data-target="#symbol-modal">
+                {{version}}
+            </td>
+            <td data-toggle="modal"
+                data-target="#symbol-modal">
+                {{debug_file}}
+            </td>
+            <td data-toggle="modal"
+                data-target="#symbol-modal">
+                {{createdAt}}
+            </td>
+            <td>
+                <svg class="icon">
+                    <use xlink:href="#icon-bin"></use>
+                </svg>
+            </td>
+        </tr>
+
+        {{/each}}
+
+        </tbody>
+    </table>
+</div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="symbol-modal" tabindex="-1" role="dialog" aria-labelledby="modal_symbol_label">
+    <div id="symbol-details-view" class="modal-dialog modal-lg" role="document">
+
+    </div>
+</div>
+
+
