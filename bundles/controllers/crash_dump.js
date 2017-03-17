@@ -8,143 +8,144 @@ global.$ = global.jQuery = require( 'jquery' );
 global.Tether = require( 'tether' );
 var $ = global.$;
 
-require('bootstrap')
+require( 'bootstrap' )
 
-var handlebars=require('handlebars')
+var handlebars = require( 'handlebars' )
 var Rx = require( 'rxjs' );
 
-var util=require('./../lib/util');
+var util = require( '../lib/util' );
+var Model = require( './../../plugins/client_model/model' );
 
 var data_table;
 var crash_dumps;
 var _self;
 
-function CrashDump(options){
+function CrashDump( options ) {
 
-    this.options=options;
-    _self=this;
+    this.options = options;
+    _self = this;
 
-    data_table = util.createTable({
-            table_id:'crash-dump-table',
-            modal_id:'crash-dump-modal'
-        });
+    data_table = util.createTable( {
+        table_id: 'crash-dump-table',
+        modal_id: 'crash-dump-modal'
+    } );
 
+    $( 'body' ).on( 'click', '#walk', function () {
 
-    $('body').on('click', '#walk', function(){
+        $( 'body' ).trigger( 'walk' )
 
-        $('body').trigger('walk')
+    } )
 
-    })
-
-
-    this.event={
-        show:Rx.Observable.fromEvent( $( 'tbody' ), 'click' ),
-        walk:Rx.Observable.fromEvent( $( 'body' ), 'walk' )
+    this.event = {
+        show: Rx.Observable.fromEvent( $( 'tbody' ), 'click' ),
+        walk: Rx.Observable.fromEvent( $( 'body' ), 'walk' ),
+        delete: Rx.Observable.fromEvent( $( '.delete' ), 'click' )
     };
 
-    this.event.show.subscribe(this.viewDetails);
-    this.event.walk.subscribe(stackWalk);
+    this.event.show.subscribe( this.viewDetails );
+    this.event.walk.subscribe( stackWalk );
+    this.event.delete.subscribe( this.delete );
 }
 
+CrashDump.prototype.viewDetails = function ( x ) {
 
-CrashDump.prototype.viewDetails=function (x) {
+    var id = $( x.target ).closest( 'tr' ).attr( 'row-id' )
 
-    var id= $(x.target).closest('tr').attr('row-id')
+    getDetails( id, function ( data ) {
 
-    getDetails(id, function(data){
+        if ( data == null ) {
 
-        if (data==null){
-
-            alert('Data missing...');
+            alert( 'Data missing...' );
             return
         }
 
+        var html = $( _self.options.selector.details_content ).html()
+        html = handlebars.compile( html )( data );
 
-        var html=$(_self.options.selector.details_content).html()
-        html=handlebars.compile(html)(data);
-
-        $(_self.options.selector.details_view).html(html)
-
-
-
+        $( _self.options.selector.details_view ).html( html )
 
         //$('#crash-dump-modal-label').html('Crash dump for <i>'+data.product+ ' '+data.version+'</i>');
         //$('#crash-dump-modal .modal-body p').html(data.report_html);
 
-
-    })
-
-
-
-
+    } )
 }
 
-function getDetails(id, done) {
+CrashDump.prototype.delete = function ( x ) {
+
+    var tr = $( x.target ).closest('tr');
+
+    Model( {
+        id: tr.attr( 'row-id' ),
+        url: {
+            delete: 'crash_dumps'
+        }
+    } ).delete()
+}
+
+function getDetails( id, done ) {
 
     $.ajax( {
         type: 'GET',
-        url: "/crash_dumps/details/"+id,
+        url: "/crash_dumps/details/" + id,
         success: function ( response ) {
 
             //crash_dumps=response
-            done(response)
+            done( response )
 
         },
         error: function ( xhr, status, error ) {
             var err = eval( "(" + xhr.responseText + ")" );
             console.log( err );
             alert( "Failed!\n\n" + error );
-            done(null)
+            done( null )
 
         }
     } );
 }
 
-
-function destroy(id) {
+function destroy( id ) {
 
     $.ajax( {
         type: 'DELETE',
-        url: "/crash_dumps/"+id,
+        url: "/crash_dumps/" + id,
         success: function ( response ) {
 
             //crash_dumps=response
-            done(response)
+            done( response )
 
         },
         error: function ( xhr, status, error ) {
             var err = eval( "(" + xhr.responseText + ")" );
             console.log( err );
             alert( "Failed!\n\n" + error );
-            done(null)
+            done( null )
 
         }
     } );
 }
 
+function stackWalk( x ) {
 
-function stackWalk(x){
+    var id = $( '#walk' ).attr( 'crash-dump-id' )
 
-    var id = $('#walk').attr('crash-dump-id')
-
-    let symbol_id=$('#select_crash_dump').val()
-        ? $('#select_crash_dump').val()
+    let symbol_id = $( '#select_crash_dump' ).val()
+        ? $( '#select_crash_dump' ).val()
         : [];
 
     $.ajax( {
         type: 'POST',
         url: "/stack_walk",
-        data:{
-            crash_id:id,
-            symbol_ids:JSON.stringify([symbol_id].map((e)=>{return Number(e)}))
+        data: {
+            crash_id: id,
+            symbol_ids: JSON.stringify( [symbol_id].map( ( e ) => {return Number( e )} ) )
         },
         success: function ( response ) {
 
-            $('#crash-dump-view .modal-body p').html(response.report_html);
+            $( '#crash-dump-view .modal-body p' ).html( response.report_html );
 
-            var data = data_table.row( id-1 ).data();
-            data[4]=response.report_html;
-            data_table.row( id-1 ).data(data).draw()
+            var data = data_table.row( id - 1 ).data();
+            data[4] = response.report_html;
+            data_table.row( id - 1 ).data( data ).draw()
 
         },
         error: function ( xhr, status, error ) {
@@ -160,7 +161,6 @@ function stackWalk(x){
 module.exports = function ( opt ) {
     return new CrashDump( opt )
 };
-
 
 //$_( document ).ready( ()=> {
 //

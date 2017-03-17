@@ -71,3 +71,12 @@ The database can be access externally through
 node-gyp is needed so add node-gyp as global package for the node installation
 and also ensure that make is installed in jenkins container. 
 Enter jenkins container as root docker exec -it jenkins --user root /bin/bash and runapt-get install build-essential
+
+##Testing
+
+To upload a file for testing
+```
+/git/breakpad/src/src/tools/linux/symupload$ ./sym_upload -v 0.0.1 /home/mikael/tmp/MuPDFWrapper.exe https://crashboombang.herokuapp.com/symbols
+./sym_upload -v 0.0.1 /home/mikael/git/breakpad/src/src/processor/testdata/symbols/overflow/B0E1FC01EF48E39CAF5C881D2DF0C3840/overflow.sym https://crashboombang.herokuapp.com/symbols
+./minidump_upload -p loredge -v 0.0.1 /home/mikael/git/breakpad/src/src/processor/testdata/linux_divide_by_zero.dmp https://crashboombang.herokuapp.com/crash_dumps
+```

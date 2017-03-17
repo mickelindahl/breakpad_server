@@ -79,6 +79,17 @@ module.exports = [
 
     },
 
+    {
+
+        method: 'DELETE',
+        config: {
+            tags: ['api', 'crash_dump'],
+            auth: 'jwt'
+        },
+        path: '/crash_dumps/{id}',
+        handler: controllers.delete
+
+    },
     // This route is required for serving assets referenced from our html files
     //{
     //    method: 'GET',

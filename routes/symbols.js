@@ -187,4 +187,16 @@ module.exports = [
 
 
     },
+
+    {
+
+        method: 'DELETE',
+        config: {
+            tags: ['api', 'symbol'],
+            auth: 'jwt'
+        },
+        path: '/symbols/{id}',
+        handler: controllers.delete
+
+    },
 ];

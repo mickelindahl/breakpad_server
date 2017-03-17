@@ -43,6 +43,11 @@ module.exports = {
 
     },
 
+    delete: handler.delete(
+        {
+            model: 'crash_dump',
+        } ),
+
     getDetails: ( request, reply ) => {
 
         let Model = request.server.getModel( 'crash_dump' );

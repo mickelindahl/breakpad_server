@@ -43,6 +43,11 @@ module.exports = {
 
     },
 
+    delete: handler.delete(
+        {
+            model: 'symbols',
+        } ),
+
     getDetails: ( request, reply ) => {
 
 
@@ -56,10 +61,7 @@ module.exports = {
                 throw 'err';
             }
 
-
               reply( model );
-
-
 
         } ).catch( function ( err ) {
 

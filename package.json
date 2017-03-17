@@ -13,6 +13,7 @@
     "test-symbols": "./node_modules/.bin/lab -m 10000 -l routes/test/stack_walk.js",
     "test-login": "./node_modules/.bin/lab -m 10000 -l routes/test/login.js",
     "test-assets": "./node_modules/.bin/lab -m 10000 -l routes/test/assets.js",
+    "test-plugin-client-model": "./node_modules/.bin/lab -l plugins/client_model/test/index.js",
     "test-cov-html": "./node_modules/.bin/lab -l -r html -o coverage.html routes/test test/server.js",
     "start": "node --harmony index.js",
     "test-jenkins": "node_modules/.bin/lab -l -r tap -o test.tap -r clover -o clover.xml test"
@@ -81,9 +82,14 @@
     "vision": "^4.1.1"
   },
   "devDependencies": {
+    "cheerio": "^0.22.0",
     "code": "^4.0.0",
     "coveralls": "^2.11.15",
+    "jquery-mockjax": "^2.2.1",
+    "jquery.mockjax": "^2.0.0",
     "lab": "^12.0.0",
-    "mock-require": "^2.0.1"
+    "mock-browser": "^0.92.12",
+    "mock-require": "^2.0.1",
+    "window-mock": "0.0.13"
   }
 }
