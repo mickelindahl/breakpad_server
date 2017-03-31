@@ -2,6 +2,7 @@
 FROM node:6.9.2
 
 ARG HOME=/home/app
+ARG DEBUG
 
 # Add app user and create directory for datatables plugin
 RUN useradd --user-group --create-home --shell /bin/false app \
