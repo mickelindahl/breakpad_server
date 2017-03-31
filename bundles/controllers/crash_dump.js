@@ -14,7 +14,7 @@ var handlebars = require( 'handlebars' )
 var Rx = require( 'rxjs' );
 
 var util = require( '../lib/util' );
-var Model = require( './../../plugins/client_model/model' );
+var Model = require( 'model-ui-component' );
 
 var data_table;
 var crash_dumps;
@@ -25,7 +25,7 @@ function CrashDump( options ) {
     this.options = options;
     _self = this;
 
-    data_table = util.createTable( {
+    this.dt = util.createTable( {
         table_id: 'crash-dump-table',
         modal_id: 'crash-dump-modal'
     } );
@@ -37,8 +37,13 @@ function CrashDump( options ) {
     } )
 
     this.event = {
-        show: Rx.Observable.fromEvent( $( 'tbody' ), 'click' ),
-        walk: Rx.Observable.fromEvent( $( 'body' ), 'walk' ),
+        show: Rx.Observable.fromEvent( $( '.view' ), 'click' ),
+        walk: Rx.Observable.fromEvent( $( 'body' ), 'click' )
+            .filter(function(x){
+
+                return x.target.id=='walk'
+
+            }),
         delete: Rx.Observable.fromEvent( $( '.delete' ), 'click' )
     };
 
@@ -72,7 +77,7 @@ CrashDump.prototype.viewDetails = function ( x ) {
 
 CrashDump.prototype.delete = function ( x ) {
 
-    var tr = $( x.target ).closest('tr');
+    var tr = $( x.target ).closest( 'tr' );
 
     Model( {
         id: tr.attr( 'row-id' ),
@@ -80,6 +85,11 @@ CrashDump.prototype.delete = function ( x ) {
             delete: 'crash_dumps'
         }
     } ).delete()
+       .then( function () {
+
+           _self.dt.row( tr ).remove().draw()
+
+       } )
 }
 
 function getDetails( id, done ) {
@@ -87,27 +97,6 @@ function getDetails( id, done ) {
     $.ajax( {
         type: 'GET',
         url: "/crash_dumps/details/" + id,
-        success: function ( response ) {
-
-            //crash_dumps=response
-            done( response )
-
-        },
-        error: function ( xhr, status, error ) {
-            var err = eval( "(" + xhr.responseText + ")" );
-            console.log( err );
-            alert( "Failed!\n\n" + error );
-            done( null )
-
-        }
-    } );
-}
-
-function destroy( id ) {
-
-    $.ajax( {
-        type: 'DELETE',
-        url: "/crash_dumps/" + id,
         success: function ( response ) {
 
             //crash_dumps=response
@@ -143,10 +132,6 @@ function stackWalk( x ) {
 
             $( '#crash-dump-view .modal-body p' ).html( response.report_html );
 
-            var data = data_table.row( id - 1 ).data();
-            data[4] = response.report_html;
-            data_table.row( id - 1 ).data( data ).draw()
-
         },
         error: function ( xhr, status, error ) {
             var err = eval( "(" + xhr.responseText + ")" );
@@ -161,26 +146,3 @@ function stackWalk( x ) {
 module.exports = function ( opt ) {
     return new CrashDump( opt )
 };
-
-//$_( document ).ready( ()=> {
-//
-//    let id;
-//
-//    $_('#walk').click(()=>{
-//        stack_walk(id)
-//    });
-//
-//    $_( '#crash-dump-table' )
-//        .addClass( 'table table-striped table-bordered table-hover' );
-//
-//    data_table = util.createTable({
-//        table_id:'crash-dump-table',
-//        modal_id:'crash-dump-modal'
-//    });
-//
-//
-//
-//    get_crash_dumps();
-//
-//
-//} );

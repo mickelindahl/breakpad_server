@@ -1,30 +1,34 @@
-<div class="container flex-column m-5">
-    <table id="symbol-table" class="table" cellspacing="0" width="100%">
+<div class="container flex-column p-5">
+    <table id="symbol-table" class="table">
         <thead class="thead-inverse">
         <tr>
             <th>Id</th>
             <th>Version</th>
             <th>Symbol</th>
             <th>Date</th>
-            <td></td>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {{#each symbols}}
         <tr row-id="{{id}}">
-            <td data-toggle="modal"
+            <td class="'view"
+                data-toggle="modal"
                 data-target="#symbol-modal">
                 {{id}}
             </td>
-            <td data-toggle="modal"
+            <td class="'view"
+                data-toggle="modal"
                 data-target="#symbol-modal">
                 {{version}}
             </td>
-            <td data-toggle="modal"
+            <td class="'view"
+                data-toggle="modal"
                 data-target="#symbol-modal">
                 {{debug_file}}
             </td>
-            <td data-toggle="modal"
+            <td class="'view"
+                data-toggle="modal"
                 data-target="#symbol-modal">
                 {{createdAt}}
             </td>

@@ -36,37 +36,6 @@ module.exports={
         } );
 
     },
-    //getBootstrapJS:{
-    //    directory: {
-    //        path: 'node_modules/bootstrap/dist/js'
-    //    }
-    //},
-    //
-    //getJqueryJS: {
-    //    directory: {
-    //        path: 'node_modules/jquery/dist'
-    //    }
-    //},
-    //
-    //getTether:{
-    //    directory: {
-    //        path: 'node_modules/tether/dist'
-    //    }
-    //},
-    //
-    //getDataTables:{
-    //    directory: {
-    //        path: 'node_modules/datatables.net-bs4'
-    //    }
-    //},
-
-    //getFullCalendarCSS:(request, reply)=>{
-    //
-    //    let css=fs.readFileSync(path.join( path.resolve(),
-    //        'node_modules','fullcalendar' ,'dist', 'fullcalendar.css'), 'binary' ).toString();
-    //
-    //    reply( css ).header("Content-type","text/css");
-    //},
 
     getBundle:( request, reply )=> {
 

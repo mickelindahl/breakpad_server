@@ -75,6 +75,19 @@ Enter jenkins container as root docker exec -it jenkins --user root /bin/bash an
 ##Testing
 
 To upload a file for testing
+
+Download [google breakpad](https://chromium.googlesource.com/breakpad/breakpad/) code
+
+From project folder got to symupload
+```
+cd src/src/tools/linux/symupload
+```
+
+To upload a test dump run 
+```
+./minidump_upload -p {project} -v {version} ../../../processor/testdata/linux_divide_by_zero.dmp {server ur}/crash_dumps
+```
+
 ```
 /git/breakpad/src/src/tools/linux/symupload$ ./sym_upload -v 0.0.1 /home/mikael/tmp/MuPDFWrapper.exe https://crashboombang.herokuapp.com/symbols
 ./sym_upload -v 0.0.1 /home/mikael/git/breakpad/src/src/processor/testdata/symbols/overflow/B0E1FC01EF48E39CAF5C881D2DF0C3840/overflow.sym https://crashboombang.herokuapp.com/symbols

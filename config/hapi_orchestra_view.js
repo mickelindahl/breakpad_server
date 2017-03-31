@@ -15,9 +15,9 @@ module.exports = ( server )=> {
             { id: 'scripts', param:'scripts', path:'./common/scripts.html', compile:true},
 
             { id: 'auth', param:'body', path:'./auth.html', compile:true},
-            { id: 'crash_dumps', param:'body', path:'./crash_dumps.html', compile:true},
+            { id: 'crash_dumps', param:'body', path:'./crash_dump.html', compile:true},
             { id: 'crash_dump_details', param:'scripts', path:'./crash_dump_details.html', compile:false},
-            { id: 'symbols', param:'body', path:'./symbols.html', compile:true},
+            { id: 'symbols', param:'body', path:'./symbol.html', compile:true},
             { id: 'symbol_details', param:'scripts', path:'./symbol_details.html', compile:false},
         ],
             directors: [{id:'director', path:'./director'}],

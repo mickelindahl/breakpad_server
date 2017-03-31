@@ -1,4 +1,4 @@
-<div class="container flex-column m-5">
+<div class="container flex-column p-5">
     <table id="crash-dump-table" class="table">
         <thead class="bg-primary">
         <tr>
@@ -14,10 +14,26 @@
         <tr data-toggle="modal"
             data-target="crash-dump-modal"
             row-id="{{id}}">
-            <td>{{id}}</td>
-            <td>{{product}}</td>
-            <td>{{version}}</td>
-            <td>{{createdAt}}</td>
+            <td class="view"
+                data-toggle="modal"
+                data-target="#crash-dump-modal">
+                {{id}}
+            </td>
+            <td class="view"
+                data-toggle="modal"
+                data-target="#crash-dump-modal">
+                {{product}}
+            </td>
+            <td class="view"
+                data-toggle="modal"
+                data-target="#crash-dump-modal">
+                {{version}}
+            </td>
+            <td class="view"
+                data-toggle="modal"
+                data-target="#crash-dump-modal">
+                {{createdAt}}
+            </td>
             <td>
                 <a class="delete" href="#">
                     <svg class="icon">

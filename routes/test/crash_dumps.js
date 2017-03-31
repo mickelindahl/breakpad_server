@@ -12,7 +12,7 @@ mock('dotenv', {config:(smile)=>{}});
 
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const serverPromise = require( "../../index.js" );
+const serverPromise = require( "../../index.js" ).promise;
 const code = require( "code" );
 const debug = require( 'debug' )( 'breakpad:test:crash_dumps' );
 const Jwt = require( 'jsonwebtoken' );
@@ -85,73 +85,27 @@ lab.experiment( "Crash dump", function () {
 
 
 
-    lab.test( "Testing for GET all crash dumps",
+    lab.test( "Testing for GET crash dump details",
          ( done ) =>{
             var options = {
                 method: "GET",
-                url: "/crash_dumps",
+                url: "/crash_dumps/details/1",
                 credentials: {}, // To bypass auth strategy
             };
 
             _server.inject( options,  ( response )=> {
                 code.expect( response.statusCode ).to.equal( 200 );
-                code.expect( response.result[0].product ).to.equal( 'cool' );
+                code.expect( response.result.product ).to.equal( 'cool' );
                 done();
             } );
         } );
 
-    lab.test( "Testing for GET all crash dumps bad implementation",
-         ( done )=> {
-
-            process.env.BAD_IMPLEMENTATION=true;
-
-            var options = {
-                method: "GET",
-                url: "/crash_dumps",
-                credentials: {}, // To bypass auth strategy
-            };
-
-            _server.inject( options,  ( response ) =>{
-                process.env.BAD_IMPLEMENTATION=false;
-                code.expect( response.statusCode ).to.equal( 500 );
-                done();
-            } );
-        } );
-
-    lab.test( "Testing for GET all crash dumps with JWT",
-         ( done ) => {
-
-             process.env.JWT_SECRET='secret';
-
-            Jwt.sign( { foo: 'bar' }, 'secret', {
-                algorithm: 'HS256',
-                expiresIn: "12h"
-            },  ( err, token )=> {
-                console.log( token );
-                console.error( err )
-
-                var options = {
-                    method: "GET",
-                    url: "/crash_dumps",
-                    headers: { cookie: 'loredge_jwt=' + token },
-                    //credentials: {  }, // To bypass auth strategy
-                };
-
-                _server.inject( options,  ( response )=> {
-                    code.expect( response.statusCode ).to.equal( 200 );
-                    code.expect( response.result[0].product ).to.equal( 'cool' );
-                    done();
-                } );
-            } );
-
-        } );
-
-    lab.test( "Testing for GET all crash dumps bad JWT",
+    lab.test( "Testing for GET  crash dumps bad JWT",
         function ( done ) {
 
             var options = {
                 method: "GET",
-                url: "/crash_dumps",
+                url: "/crash_dumps/details/1",
                 headers: { cookie: 'loredge_jwt=' + 'wrong' },
                 //credentials: {  }, // To bypass auth strategy
             };
@@ -169,7 +123,7 @@ lab.experiment( "Crash dump", function () {
 
             var options = {
                 method: "GET",
-                url: "/crash_dumps",
+                url: "/crash_dumps/details/1",
                 headers: { cookie: 'other=' + 'wrong' },
                 //credentials: {  }, // To bypass auth strategy
             };
@@ -188,7 +142,7 @@ lab.experiment( "Crash dump", function () {
 
             var options = {
                 method: "GET",
-                url: "/crash_dumps/view",
+                url: "/",
                 credentials: {  }, // To bypass auth strategy
             };
 

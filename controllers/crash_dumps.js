@@ -7,6 +7,7 @@
 const moment = require('moment');
 const handler = require( '../index' ).server.methods.handler;
 const debug = require( 'debug' )( 'breakpad:controllers:crash_dumps' );
+const Boom = require('boom');
 
 module.exports = {
     create: ( request, reply ) => {
@@ -46,6 +47,15 @@ module.exports = {
     delete: handler.delete(
         {
             model: 'crash_dump',
+            getCriteria:(req, done)=>{
+
+                debug('delete req params', req.params)
+
+                done({
+                    id:req.params.id
+                })
+
+            }
         } ),
 
     getDetails: ( request, reply ) => {

@@ -14,6 +14,7 @@ module.exports=(server)=> {
         require('./hapi_swagger'),
         require('./hapi_waterline'),
         require('./hapi_orchestra_view'),
+        require('./hapi_handlers_waterline'),
         (s) => {
             return s.register(require('inert'))
         },

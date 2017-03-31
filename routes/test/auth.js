@@ -12,7 +12,7 @@ mock('dotenv', {config:(smile)=>{}});
 
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const serverPromise = require( "../../index.js" );
+const serverPromise = require( "../../index.js" ).promise;
 const code = require( "code" );
 const debug = require( 'debug' )( 'breakpad:test:crash_dumps' );
 
@@ -37,7 +37,7 @@ lab.experiment( "Login", function () {
 
             var options = {
                 method: "POST",
-                url: "/login",
+                url: "/auth/login",
                 payload: {
                     user: 'user',
                     password: 'password'
@@ -58,7 +58,7 @@ lab.experiment( "Login", function () {
 
             var options = {
                 method: "POST",
-                url: "/login",
+                url: "/auth/login",
                 payload: {
                     user: 'wrong',
                     password: 'password'
@@ -79,7 +79,7 @@ lab.experiment( "Login", function () {
 
             var options = {
                 method: "POST",
-                url: "/login",
+                url: "/auth/login",
                 payload: {
                     user: 'user',
                     password: 'wrong'
@@ -98,7 +98,7 @@ lab.experiment( "Login", function () {
         ( done ) => {
             var options = {
                 method: "GET",
-                url: "/login",
+                url: "/auth",
                 credentials: {}, // To bypass auth strategy
             };
 

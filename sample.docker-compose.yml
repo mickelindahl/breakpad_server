@@ -6,7 +6,11 @@ volumes:
 
 services:
   web:
-    build: .
+    build:
+        context: .
+        args:
+          HOME: /home/app
+          APP_NAME: breakpad
     container_name: breakpad_web
     environment:
         HOME: /home/app
@@ -23,8 +27,8 @@ services:
     tty: true
     restart: always
     volumes:
-      - .:/home/app/breakpad
-      - node_modules:/home/app/breakpad/node_modules
+      - ./.env:/home/app/{app name}/.env
+
     expose:
       - "4000"
     

@@ -11,10 +11,10 @@ mock('dotenv', {config:(smile)=>{}});
 
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const serverPromise = require( "../../index.js" );
+const serverPromise = require( "../../index.js" ).promise;
 const code = require( "code" );
 const Path = require('path');
-const debug=require('debug')('breakpad:test:crash_dumps');
+const debug=require('debug')('breakpad_server:routes:test:symbols');
 
 let _server;
 

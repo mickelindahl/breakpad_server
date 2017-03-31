@@ -12,9 +12,9 @@ mock('dotenv', {config:(smile)=>{}});
 
 const Lab = require( "lab" );
 const lab = exports.lab = Lab.script();
-const serverPromise = require( "../../index.js" );
+const serverPromise = require( "../../index.js" ).promise;
 const code = require( "code" );
-const debug = require( 'debug' )( 'breakpad:test:assets' );
+const debug = require( 'debug' )( 'breakpad_server:test:assets' );
 
 let _server;
 
@@ -31,41 +31,11 @@ lab.experiment( "Assets", function () {
         });
     } );
 
-    lab.test( "Testing for GET for bootstrap table test route",
-        function ( done ) {
-            var options = {
-                method: "GET",
-                url: "/test",
-                credentials: {}, // To bypass auth strategy
-            };
-
-            _server.inject( options, function ( response ) {
-                code.expect( response.statusCode ).to.equal( 200 );
-                done();
-            } );
-        } );
-
-    lab.test( "Testing for GET root redirect to crash_dump/view",
-        function ( done ) {
-            var options = {
-                method: "GET",
-                url: "/",
-                credentials: {}, // To bypass auth strategy
-            };
-
-            _server.inject( options, function ( response ) {
-                code.expect( response.statusCode ).to.equal( 302 );
-                done();
-            } );
-        } );
-
-
-
     lab.test( "Testing for GET for browserify bundle",
         function ( done ) {
             var options = {
                 method: "GET",
-                url: "/bundles/symbol.js",
+                url: "/bundle/symbols.js",
                 credentials: {}, // To bypass auth strategy
             };
 
@@ -79,7 +49,7 @@ lab.experiment( "Assets", function () {
         function ( done ) {
             var options = {
                 method: "GET",
-                url: "/bundles/no.js",
+                url: "/bundle/no.js",
                 credentials: {}, // To bypass auth strategy
             };
 
