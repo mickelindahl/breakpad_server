@@ -95,7 +95,6 @@ function handlerStackWalk( request, reply ) {
 
                 //debug('error!!!!!',error, results.crash_dump.file.toString())
 
-
                 if ( error ) {
 
                     debug('results.crash_dump.file.toString("binary")')
