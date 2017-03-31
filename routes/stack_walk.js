@@ -97,13 +97,17 @@ function handlerStackWalk( request, reply ) {
 
                 if ( error ) {
 
+                    debug('results.crash_dump.file.toString("binary")',results.crash_dump.file.toString('binary'))
+
                     debug( error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ) )
                     results.crash_dump.report = error.toString();
                     results.crash_dump.report_html = Util.format(
                         '<p>%s<font size="3" color="red">%s</font><br/></p><h4>Crash dump raw</h4><p>%s</p>',
                         header,
                         error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ),
-                        results.crash_dump.file ? results.crash_dump.file.toString('binary') : 'no file' )
+                        'no-file'
+                        //results.crash_dump.file ? results.crash_dump.file.toString('binary') : 'no file'
+                    )
 
                     return resolve( results )
 
