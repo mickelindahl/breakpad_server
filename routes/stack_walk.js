@@ -97,7 +97,8 @@ function handlerStackWalk( request, reply ) {
 
                 if ( error ) {
 
-                    debug('results.crash_dump.file.toString("binary")',results.crash_dump.file.toString('binary'))
+                    debug('results.crash_dump.file.toString("binary")')
+                    debug('results.crash_dump.file.toString("binary")', results.crash_dump.file ? results.crash_dump.file.toString('binary') : 'no file')
 
                     debug( error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ) )
                     results.crash_dump.report = error.toString();
