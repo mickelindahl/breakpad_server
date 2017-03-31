@@ -1,11 +1,11 @@
 # Get specific node version (less risk)
 FROM node:6.9.2
 
+ARG HOME
+
 # Add app user and create directory for datatables plugin
 RUN useradd --user-group --create-home --shell /bin/false app \
-   && mkdir -p /home/app/breakpad
-
-#ENV HOME=/home/app
+   && mkdir -p $HOME/breakpad
 
 # Copy over package.json and dependdent files
 #RUN mkdir -p $HOME/breakpad/plugins/datatables.net-bs4
