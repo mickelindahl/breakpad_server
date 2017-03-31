@@ -102,7 +102,7 @@ function handlerStackWalk( request, reply ) {
                         '<p>%s<font size="3" color="red">%s</font><br/></p><h4>Crash dump raw</h4><p>%s</p>',
                         header,
                         error.toString().replace( /(?:\r\n|\r|\n)/g, '<br />' ),
-                        results.crash_dump.file ? results.crash_dump.file.toString() : results.crash_dump.file )
+                        results.crash_dump.file ? results.crash_dump.file.toString('binary') : 'no file' )
 
                     return resolve( results )
 
@@ -151,7 +151,7 @@ function handlerStackWalk( request, reply ) {
 
     } ).then( ( results )=> {
 
-        debug('before database update')
+        debug('before database update', request.payload.crash_id , results.crash_dump)
 
         return Crash_dump.update( { id: request.payload.crash_id }, results.crash_dump )
                          .catch((err)=>{
