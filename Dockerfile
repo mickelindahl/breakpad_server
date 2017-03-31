@@ -1,7 +1,7 @@
 # Get specific node version (less risk)
 FROM node:6.9.2
 
-ARG HOME
+ARG HOME=/home/app
 
 # Add app user and create directory for datatables plugin
 RUN useradd --user-group --create-home --shell /bin/false app \
@@ -11,7 +11,8 @@ RUN useradd --user-group --create-home --shell /bin/false app \
 #RUN mkdir -p $HOME/breakpad/plugins/datatables.net-bs4
 COPY package.json $HOME/breakpad
 
-RUN npm install \
+RUN cd $HOME/breakpad \
+    && npm install \
     && chown -R app:app $HOME/*
 
 # Change to app user and set working directory
@@ -21,4 +22,4 @@ WORKDIR $HOME/breakpad
 # Bundle app source
 COPY . $HOME/breakpad
 
-CMD [ "node", "index.js" ]
+#CMD [ "node", "index.js" ]
