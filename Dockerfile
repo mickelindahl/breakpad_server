@@ -12,7 +12,7 @@ RUN useradd --user-group --create-home --shell /bin/false app \
 COPY package.json $HOME/breakpad
 
 RUN npm install \
-    chown -R app:app $HOME/*
+    && chown -R app:app $HOME/*
 
 # Change to app user and set working directory
 USER app
