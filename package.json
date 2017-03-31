@@ -57,6 +57,7 @@
     "handlebars": "^4.0.6",
     "hapi": "^16.1.0",
     "hapi-auth-jwt": "^4.0.0",
+    "hapi-handlers-waterline": "git+https://github.com/mickelindahl/hapi_handlers_waterline.git#1.0.1",
     "hapi-orchestra-view": "git+https://x-oauth-basic@github.com/mickelindahl/hapi_orchestra_view.git#1.0.2",
     "hapi-redirect": "^1.0.3",
     "hapi-swagger": "^7.6.0",
