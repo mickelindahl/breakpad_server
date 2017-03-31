@@ -85,6 +85,7 @@ function handlerStackWalk( request, reply ) {
 
             } );
 
+
             let parse = ( error, report )=> {
 
                 let header = Util.format( '<font size="3" color="blue">Symbols used: %s<br /> Ip: %s<br />User agent: %s<br /><br /></font>',
